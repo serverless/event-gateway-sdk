@@ -4,11 +4,30 @@ const spawn = require('child_process').spawn
 const uuidv1 = require('uuid/v1')
 // eslint-disable-next-line node/no-unpublished-require, import/no-extraneous-dependencies
 const rimraf = require('rimraf')
+const octokit = require('@octokit/rest')()
+const http = require('http')
+const fs = require('fs')
+const tar = require('tar-fs')
 
 // eslint-disable-next-line no-undef
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000
+const eventGatewayPath = path.join(__dirname, `event-gateway-${process.platform}_amd64`)
 
-const eventGatewayPath = path.join(__dirname, `${process.platform}_amd64`, 'event-gateway')
+octokit.repos.getLatestRelease({ owner: 'serverless', repo: 'event-gateway' }).then(result => {
+  if (!result.assets) throw new Error('No assets in the latest release')
+
+  const toDownload = result.assets.find(
+    asset => asset && asset.name && asset.name.includes(`${process.platform}_amd64`)
+  )
+  if (!toDownload) throw new Error('No asset found in the latest release that matches the platform')
+
+  const file = fs.createWriteStream(eventGatewayPath)
+  http.get(toDownload.browser_download_url, response => {
+    response.pipe(tar.extract(file))
+  })
+}).catch(err => {
+  throw new Error(err)
+})
 const processStore = {}
 
 module.exports = {
