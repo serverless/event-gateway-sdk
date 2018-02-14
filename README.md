@@ -2,7 +2,7 @@
 
 Node.js library to to configure configure the [Event Gateway](https://github.com/serverless/event-gateway).
 
-[![Build Status](https://travis-ci.org/serverless/fdk.svg?branch=master)](https://travis-ci.org/serverless/fdk)
+[![Build Status](https://travis-ci.com/serverless/event-gateway-sdk.svg?token=Faq4s25jqLX4hvzqpMwM&branch=master)](https://travis-ci.org/serverless/event-gateway-sdk)
 
 ## Install (Node)
 
