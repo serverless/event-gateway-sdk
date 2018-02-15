@@ -21,8 +21,8 @@ The FDK then will be attached to window e.g. and you can access it via `window.f
 ## Create an Event Gateway Client
 
 ```js
-const egSDK = require('@serverless/event-gateway-sdk');
-const eventGateway = new egSDK({
+const SDK = require('@serverless/event-gateway-sdk');
+const eventGateway = new SDK({
   url: 'http://localhost',
 })
 ```
