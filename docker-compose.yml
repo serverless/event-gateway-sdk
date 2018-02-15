@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  eg_sdk:
+  sdk:
     image: node:latest
     working_dir: /app
     volumes:
