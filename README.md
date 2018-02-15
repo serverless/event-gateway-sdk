@@ -16,7 +16,7 @@ npm install @serverless/event-gateway-sdk
 <script type="text/javascript" src="https://unpkg.com/@serverless/event-gateway-sdk@latest/dist/event-gateway-sdk.min.js"></script>
 ```
 
-The FDK then will be attached to window e.g. and you can access it via `window.eg_sdk`
+The FDK then will be attached to window e.g. and you can access it via `window.egSDK`
 
 ## Create an Event Gateway Client
 
