@@ -13,26 +13,25 @@ const tar = require('tar-fs')
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000
 const eventGatewayPath = path.join(__dirname, `event-gateway-${process.platform}_amd64`)
 
-octokit.repos.getLatestRelease({ owner: 'serverless', repo: 'event-gateway' }).then(result => {
+const downloadProise = octokit.repos.getLatestRelease(
+  { owner: 'serverless', repo: 'event-gateway' }
+).then(result => {
   if (!result.assets) throw new Error('No assets in the latest release')
 
   const toDownload = result.assets.find(
-    asset => asset && asset.name && asset.name.includes(`${process.platform}_amd64`)
-  )
+    asset => asset && asset.name && asset.name.includes(`${process.platform}_amd64`))
   if (!toDownload) throw new Error('No asset found in the latest release that matches the platform')
 
   const file = fs.createWriteStream(eventGatewayPath)
   http.get(toDownload.browser_download_url, response => {
     response.pipe(tar.extract(file))
   })
-}).catch(err => {
-  throw new Error(err)
 })
 const processStore = {}
 
 module.exports = {
   spawn: ports =>
-    new Promise(resolve => {
+    downloadProise.then(() => new Promise(resolve => {
       const processId = uuidv1()
       const args = [
         '--dev',
@@ -54,7 +53,7 @@ module.exports = {
           }),
         4000
       )
-    }),
+    })),
   shutDown: id => {
     processStore[id].kill()
     rimraf.sync(`./${id}`)
