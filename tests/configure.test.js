@@ -36,7 +36,7 @@ beforeAll(() =>
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
-      eventGateway = SDK.eventGateway({
+      eventGateway = new SDK({
         url: `http://localhost:${processInfo.apiPort}`,
         configurationUrl: `http://localhost:${processInfo.configPort}`,
       })
