@@ -2,7 +2,7 @@
 
 Node.js library to to configure configure the [Event Gateway](https://github.com/serverless/event-gateway).
 
-[![Build Status](https://travis-ci.org/serverless/fdk.svg?branch=master)](https://travis-ci.org/serverless/fdk)
+[![Build Status](https://travis-ci.org/serverless/event-gateway-sdk.svg?branch=master)](https://travis-ci.org/serverless/event-gateway-sdk)
 
 ## Install (Node)
 
@@ -16,7 +16,7 @@ npm install @serverless/event-gateway-sdk
 <script type="text/javascript" src="https://unpkg.com/@serverless/event-gateway-sdk@latest/dist/event-gateway-sdk.min.js"></script>
 ```
 
-The FDK then will be attached to window e.g. and you can access it via `window.fdk`
+The EventGatewaySDK will then be attached to window e.g. and you can access it via `window.EventGatewaySDK`
 
 ## Create an Event Gateway Client
 
@@ -136,4 +136,4 @@ eventGateway.unsubscribe({
 
 ## Contribute
 
-If you are interested to contribute we recommend to check out the [Contributing](https://github.com/serverless/fdk/blob/master/CONTRIBUTING.md) document as it explains how to get started and some of the design decisions for this library.
+If you are interested to contribute we recommend to check out the [Contributing](https://github.com/serverless/event-gateway-sdk/blob/master/CONTRIBUTING.md) document as it explains how to get started and some of the design decisions for this library.

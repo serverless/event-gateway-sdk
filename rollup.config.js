@@ -10,7 +10,7 @@ const sourcemaps = require('rollup-plugin-sourcemaps')
 // eslint-disable-next-line no-console
 console.log('Creating bundle...')
 
-const targets = [{ dest: 'dist/fdk.min.js', format: 'umd' }]
+const targets = [{ dest: 'dist/event-gateway-sdk.min.js', format: 'umd' }]
 
 const plugins = [
   json(),
@@ -35,7 +35,7 @@ const plugins = [
 
 module.exports = {
   entry: 'lib/index.js',
-  moduleName: 'fdk',
+  moduleName: 'event-gateway-sdk',
   exports: 'named',
   sourceMap: true,
   targets,

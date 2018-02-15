@@ -1,4 +1,4 @@
-const fdk = require('../lib/index')
+const SDK = require('../lib/index')
 const eventGatewayProcesses = require('./event-gateway/processes')
 
 const config = {
@@ -32,7 +32,7 @@ beforeAll(() =>
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
-      eventGateway = fdk.eventGateway({
+      eventGateway = SDK.eventGateway({
         url: `http://localhost:${processInfo.apiPort}`,
         configurationUrl: `http://localhost:${processInfo.configPort}`,
       })
