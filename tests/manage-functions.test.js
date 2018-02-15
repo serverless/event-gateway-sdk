@@ -33,24 +33,10 @@ afterAll(() => {
   eventGatewayProcesses.shutDown(eventGatewayProcessId)
 })
 
-test('should return an empty list for a new gateway', () => {
-  expect.assertions(1)
-  return eventGateway.listFunctions().then(response => {
-    expect(response).toEqual({ functions: [] })
-  })
-})
-
 test('should add a function to the gateway', () => {
   expect.assertions(1)
   return eventGateway.registerFunction(functionConfig).then(response => {
     expect(response).toEqual(functionConfig)
-  })
-})
-
-test('should list the added function', () => {
-  expect.assertions(1)
-  return eventGateway.listFunctions().then(response => {
-    expect(response).toEqual({ functions: [functionConfig] })
   })
 })
 
