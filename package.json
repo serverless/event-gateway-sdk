@@ -12,8 +12,12 @@
     "build": "rollup -c"
   },
   "dependencies": {
+    "@octokit/rest": "^14.0.9",
+    "got": "^8.1.0",
+    "gunzip-maybe": "^1.4.1",
     "isomorphic-fetch": "^2.2.1",
     "ramda": "^0.24.1",
+    "tar-stream": "^1.5.5",
     "url-parse": "^1.1.9"
   },
   "devDependencies": {
