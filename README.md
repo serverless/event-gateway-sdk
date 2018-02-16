@@ -1,6 +1,6 @@
 # EventGateway-SDK
 
-Node.js library to to configure configure the [Event Gateway](https://github.com/serverless/event-gateway).
+Node.js library to configuring the [Event Gateway](https://github.com/serverless/event-gateway).
 
 [![Build Status](https://travis-ci.org/serverless/event-gateway-sdk.svg?branch=master)](https://travis-ci.org/serverless/event-gateway-sdk)
 
@@ -38,78 +38,13 @@ Optional Properties for `eventGateway`
 }
 ```
 
-## Configure an Event Gateway
+## API
 
-Configure accepts an object of function and subscription definitions. The idea of exposing one configuration function is to provide developers with convenient utility to configure an Event Gateway in one call rather then dealing with a chain of Promise based calls. Nevertheless in addition we expose a wrapper function for each low-level API call to the Event Gateway described in this [section](#further-event-gateway-functions).
+### Register Function
 
-```js
-eventGateway.configure({
-  // list of all the functions that should be registered
-  functions: [
-    {
-      functionId: "helloWorld",
-      provider: {
-        type: "awslambda",
-        arn: "xxx",
-        region: "us-west-2",
-      }
-    },
-    {
-      functionId: "sendWelcomeMail",
-      provider: {
-        type: "gcloudfunction",
-        name: "sendWelcomeEmail",
-        region: "us-west-2",
-      }
-    }
-  ],
-  // list of all the subscriptions that should be created
-  subscriptions: [
-    {
-      event: "http",
-      method: "GET",
-      path: "/users",
-      functionId: "helloWorld"
-    },
-    {
-      event: "user.created",
-      functionId: "sendEmail"
-    }
-  ]
-})
-```
-
-Returns a promise which contains all the same list of functions and subscriptions in the same structure and order as provided in the configuration argument.
+**Returns** function object
 
 ```js
-eventGateway.configure({ config })
-  .then((response) => {
-    console.log(response)
-    // {
-    //   functions: [
-    //     { functionId: 'xxx', … },
-    //     { functionId: 'xxx', … }
-    //   ],
-    //   subscriptions: [
-    //     { subscriptionId: 'xxx', … },
-    //     { subscriptionId: 'xxx', … }
-    //   ]
-    // }
-  })
-```
-
-## Reset the configuration
-
-Reset removes all the existing subscriptions and functions.
-
-```js
-eventGateway.resetConfiguration()
-```
-
-## Further Event Gateway Functions
-
-```js
-// Returns a function
 eventGateway.registerFunction({
   functionId: "sendEmail",
   provider: {
@@ -118,17 +53,28 @@ eventGateway.registerFunction({
     region: "us-west-2",
   }
 })
+```
 
-// Returns undefined
+### Delete Function
+
+```js
 eventGateway.deleteFunction({ functionId: "sendEmail" })
+```
 
-// Returns a subscription: { subscriptionId, event, functionId}
+### Subscribe
+
+**Returns** subscription object
+
+```js
 eventGateway.subscribe({
   event: "user.created",
   functionId: "sendEmail"
 })
+```
 
-// Returns undefined
+### Unsubscribe
+
+```js
 eventGateway.unsubscribe({
   subscriptionId: "user.created-sendEmail"
 })
