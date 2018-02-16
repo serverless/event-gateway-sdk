@@ -1,4 +1,4 @@
-const fdk = require('../lib/index')
+const SDK = require('../lib/index')
 const eventGatewayProcesses = require('./event-gateway/processes')
 
 const functionConfig = {
@@ -22,7 +22,7 @@ beforeAll(() =>
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
-      eventGateway = fdk.eventGateway({
+      eventGateway = SDK.eventGateway({
         url: `http://localhost:${processInfo.apiPort}`,
         configurationUrl: `http://localhost:${processInfo.configPort}`,
       })
@@ -33,24 +33,10 @@ afterAll(() => {
   eventGatewayProcesses.shutDown(eventGatewayProcessId)
 })
 
-test('should return an empty list for a new gateway', () => {
-  expect.assertions(1)
-  return eventGateway.listFunctions().then(response => {
-    expect(response).toEqual({ functions: [] })
-  })
-})
-
 test('should add a function to the gateway', () => {
   expect.assertions(1)
   return eventGateway.registerFunction(functionConfig).then(response => {
     expect(response).toEqual(functionConfig)
-  })
-})
-
-test('should list the added function', () => {
-  expect.assertions(1)
-  return eventGateway.listFunctions().then(response => {
-    expect(response).toEqual({ functions: [functionConfig] })
   })
 })
 

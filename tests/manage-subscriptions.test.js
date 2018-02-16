@@ -1,4 +1,4 @@
-const fdk = require('../lib/index')
+const SDK = require('../lib/index')
 const eventGatewayProcesses = require('./event-gateway/processes')
 
 const functionConfig = {
@@ -24,7 +24,7 @@ beforeAll(() =>
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
-      eventGateway = fdk.eventGateway({
+      eventGateway = SDK.eventGateway({
         url: `http://localhost:${processInfo.apiPort}`,
         configurationUrl: `http://localhost:${processInfo.configPort}`,
       })
@@ -45,13 +45,6 @@ test('should add a function to the gateway', () => {
 test('should add a subscription to the gateway', () => {
   expect.assertions(1)
   return eventGateway.subscribe(subscriptionConfig).then(response => {
-    expect(response).toMatchSnapshot()
-  })
-})
-
-test('should list the added subscriptions', () => {
-  expect.assertions(1)
-  return eventGateway.listSubscriptions().then(response => {
     expect(response).toMatchSnapshot()
   })
 })
