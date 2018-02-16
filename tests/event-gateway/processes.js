@@ -13,6 +13,10 @@ const gunzipMaybe = require('gunzip-maybe')
 // eslint-disable-next-line no-undef
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000
 
+octokit.authenticate({
+  type: 'token',
+  token: process.env.GH_API_KEY,
+})
 const downloadPromise = octokit.repos.getLatestRelease(
   { owner: 'serverless', repo: 'event-gateway' }
 ).then(response => {
