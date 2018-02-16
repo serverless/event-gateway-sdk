@@ -21,8 +21,8 @@ The EventGatewaySDK will then be attached to window e.g. and you can access it v
 ## Create an Event Gateway Client
 
 ```js
-const egSDK = require('@serverless/event-gateway-sdk');
-const eventGateway = egSDK.eventGateway({
+const SDK = require('@serverless/event-gateway-sdk');
+const eventGateway = new SDK({
   url: 'http://localhost',
 })
 ```

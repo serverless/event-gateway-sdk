@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer')
 const path = require('path')
 
 const command = `
-const eventGateway = EGSDK.eventGateway({
+const eventGateway = new EventGateway({
   url: 'http://localhost',
 })
 `
@@ -28,7 +28,7 @@ test('instantiate the event gateway', async () => {
   const htmlPath = path.join(__dirname, 'index.html')
   const url = `file://${htmlPath}`
   await page.goto(url)
-  // if this command succeeds the FDK is available on window
+  // if this command succeeds the SDK is available on window
   await page.evaluate(command)
   expect(true).toBe(true)
 })
