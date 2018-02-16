@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer')
 const path = require('path')
 
 const command = `
-const eventGateway = SDK.eventGateway({
+const eventGateway = EGSDK.eventGateway({
   url: 'http://localhost',
 })
 `

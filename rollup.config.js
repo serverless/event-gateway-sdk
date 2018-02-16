@@ -35,7 +35,7 @@ const plugins = [
 
 module.exports = {
   entry: 'lib/index.js',
-  moduleName: 'event-gateway-sdk',
+  moduleName: 'EGSDK',
   exports: 'named',
   sourceMap: true,
   targets,
