@@ -13,11 +13,13 @@ const gunzipMaybe = require('gunzip-maybe')
 // eslint-disable-next-line no-undef
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000
 
+const binPath = path.join(__dirname, 'event-gateway')
+
 octokit.authenticate({
   type: 'token',
   token: process.env.GH_API_KEY,
 })
-const downloadPromise = octokit.repos.getLatestRelease(
+const downloadPromise = fs.existsSync(binPath) ? Promise.resolve() : octokit.repos.getLatestRelease(
   { owner: 'serverless', repo: 'event-gateway' }
 ).then(response => {
   const assets = response && response.data && response.data.assets
@@ -57,7 +59,7 @@ module.exports = {
         // `--embed-peer-addr=http://127.0.0.1:${ports.embedPeerPort}`,
         // `--embed-cli-addr=http://127.0.0.1:${ports.embedCliPort}`,
       ]
-      processStore[processId] = spawn(path.join(__dirname, 'event-gateway'), args, {
+      processStore[processId] = spawn(binPath, args, {
         stdio: 'inherit',
       })
       setTimeout(
