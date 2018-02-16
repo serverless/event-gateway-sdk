@@ -10,8 +10,6 @@ const sourcemaps = require('rollup-plugin-sourcemaps')
 // eslint-disable-next-line no-console
 console.log('Creating bundle...')
 
-const targets = [{ dest: 'dist/event-gateway-sdk.min.js', format: 'umd' }]
-
 const plugins = [
   json(),
   resolve({
@@ -34,10 +32,13 @@ const plugins = [
 ]
 
 module.exports = {
-  entry: 'lib/index.js',
-  moduleName: 'event-gateway-sdk',
-  exports: 'named',
-  sourceMap: true,
-  targets,
+  input: 'lib/index.js',
+  output: {
+    format: 'umd',
+    file: 'dist/event-gateway-sdk.min.js',
+    name: 'EventGateway',
+    exports: 'default',
+    sourcemap: true,
+  },
   plugins,
 }

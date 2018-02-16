@@ -49,13 +49,6 @@ test('should add a subscription to the gateway', () => {
   })
 })
 
-test('should list the added subscriptions', () => {
-  expect.assertions(1)
-  return eventGateway.listSubscriptions().then(response => {
-    expect(response).toMatchSnapshot()
-  })
-})
-
 test('should remove the added subscription', () => {
   expect.assertions(1)
   return eventGateway

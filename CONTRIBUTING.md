@@ -30,9 +30,9 @@ npm run test:browser
 
 The purpose of this section is to introduce contributors to the philosophy and thinking behind the architecture and API design of this library.
 
-### Isomorphic Use of the FDK
+### Isomorphic Use of the SDK
 
-In order to allow various use-cases we want to make sure the FDK works not only in Node, but also in environments like a browser.
+In order to allow various use-cases we want to make sure the SDK works not only in Node, but also in environments like a browser.
 
 ### Function Arguments
 
