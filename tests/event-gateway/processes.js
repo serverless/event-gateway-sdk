@@ -36,6 +36,7 @@ const downloadPromise = fs.existsSync(binPath) ? Promise.resolve() : octokit.rep
     extractionStream.on('finish', resolve)
     extractionStream.on('entry', (header, stream, next) => {
       const writePath = path.join(__dirname, header.name)
+      fs.unlinkSync(writePath)
       const writeStream = fs.createWriteStream(writePath, { end: true, mode: header.mode })
       writeStream.on('error', reject)
       stream.pipe(writeStream)
