@@ -5,7 +5,7 @@ const puppeteer = require('puppeteer')
 const path = require('path')
 
 const command = `
-const eventGateway = SDK.eventGateway({
+const eventGateway = EGSDK.eventGateway({
   url: 'http://localhost',
 })
 `
@@ -14,7 +14,7 @@ let browser
 let page
 
 beforeEach(async () => {
-  browser = await puppeteer.launch()
+  browser = await puppeteer.launch({ args: ['--no-sandbox'] })
   page = await browser.newPage()
   return
 })
