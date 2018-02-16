@@ -5,33 +5,45 @@ const uuidv1 = require('uuid/v1')
 // eslint-disable-next-line node/no-unpublished-require, import/no-extraneous-dependencies
 const rimraf = require('rimraf')
 const octokit = require('@octokit/rest')()
-const http = require('http')
+const got = require('got')
 const fs = require('fs')
-const tar = require('tar-fs')
+const tarStream = require('tar-stream')
+const gunzipMaybe = require('gunzip-maybe')
 
 // eslint-disable-next-line no-undef
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 6000
-const eventGatewayPath = path.join(__dirname, `event-gateway-${process.platform}_amd64`)
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000
 
-const downloadProise = octokit.repos.getLatestRelease(
+const downloadPromise = octokit.repos.getLatestRelease(
   { owner: 'serverless', repo: 'event-gateway' }
-).then(result => {
-  if (!result.assets) throw new Error('No assets in the latest release')
-
-  const toDownload = result.assets.find(
+).then(response => {
+  const assets = response && response.data && response.data.assets
+  if (!assets || !Array.isArray(assets)) throw new Error('No assets in the latest release')
+  const toDownload = assets.find(
     asset => asset && asset.name && asset.name.includes(`${process.platform}_amd64`))
   if (!toDownload) throw new Error('No asset found in the latest release that matches the platform')
 
-  const file = fs.createWriteStream(eventGatewayPath)
-  http.get(toDownload.browser_download_url, response => {
-    response.pipe(tar.extract(file))
+  return new Promise((resolve, reject) => {
+    const gotStream = got.stream(toDownload.browser_download_url)
+    const extractionStream = gotStream.pipe(gunzipMaybe()).pipe(tarStream.extract())
+    extractionStream.on('end', resolve)
+    extractionStream.on('error', reject)
+    extractionStream.on('finish', resolve)
+    extractionStream.on('entry', (header, stream, next) => {
+      const writePath = path.join(__dirname, header.name)
+      const writeStream = fs.createWriteStream(writePath, { end: true, mode: header.mode })
+      writeStream.on('error', reject)
+      stream.pipe(writeStream)
+      stream.on('end', next)
+    })
   })
+}).catch(error => {
+  throw new Error((error.response && error.response.body) || (error && error.message))
 })
 const processStore = {}
 
 module.exports = {
   spawn: ports =>
-    downloadProise.then(() => new Promise(resolve => {
+    downloadPromise.then(() => new Promise(resolve => {
       const processId = uuidv1()
       const args = [
         '--dev',
@@ -41,7 +53,7 @@ module.exports = {
         // `--embed-peer-addr=http://127.0.0.1:${ports.embedPeerPort}`,
         // `--embed-cli-addr=http://127.0.0.1:${ports.embedCliPort}`,
       ]
-      processStore[processId] = spawn(eventGatewayPath, args, {
+      processStore[processId] = spawn(path.join(__dirname, 'event-gateway'), args, {
         stdio: 'inherit',
       })
       setTimeout(
