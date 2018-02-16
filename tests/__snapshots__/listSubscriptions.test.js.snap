@@ -3,9 +3,9 @@
 exports[`should add a subscription to the gateway 1`] = `
 Object {
   "event": "pageVisited",
-  "functionId": "test-emit",
+  "functionId": "hello",
   "path": "/",
-  "space": "default",
-  "subscriptionId": "pageVisited,test-emit,%2F",
+  "space": "testspace",
+  "subscriptionId": "pageVisited,hello,%2F",
 }
 `;

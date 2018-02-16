@@ -10,6 +10,15 @@ const functionConfig = {
     region: 'us-east-1',
   },
 }
+
+const subscriptionConfig = {
+  space: 'testspace',
+  subscriptionId: 'pageVisited,hello,%2F',
+  functionId: 'hello',
+  event: 'pageVisited',
+  path: '/',
+}
+
 let eventGateway
 let eventGatewayProcessId
 
@@ -42,23 +51,16 @@ test('should add a function to the gateway', () => {
   })
 })
 
-test('should fail to re-add the same function', () => {
+test('should add a subscription to the gateway', () => {
   expect.assertions(1)
-  return eventGateway.registerFunction(functionConfig).catch(err => {
-    expect(err).toMatchSnapshot()
+  return eventGateway.subscribe(subscriptionConfig).then(response => {
+    expect(response).toMatchSnapshot()
   })
 })
 
-test('should remove the added function', () => {
+test('should return list of subscriptions', () => {
   expect.assertions(1)
-  return eventGateway.deleteFunction({ functionId: 'hello' }).then(response => {
-    expect(response).toBeUndefined()
-  })
-})
-
-test('should fail to remove a none-existing function', () => {
-  expect.assertions(1)
-  return eventGateway.deleteFunction({ functionId: 'missing-func' }).catch(err => {
-    expect(err).toMatchSnapshot()
+  return eventGateway.listSubscriptions().then(response => {
+    expect(response).toEqual([subscriptionConfig])
   })
 })

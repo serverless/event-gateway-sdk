@@ -12,13 +12,18 @@ const server = http.createServer((request, response) => {
 })
 
 const functionConfig = {
+  space: 'default',
   functionId: 'test-emit',
   provider: {
     type: 'http',
     url: `http://localhost:${serverPort}/test/path`,
   },
 }
-const subscriptionConfig = { functionId: 'test-emit', event: 'pageVisited' }
+
+const subscriptionConfig = {
+  functionId: 'test-emit', event: 'pageVisited',
+}
+
 let eventGateway
 let eventGatewayProcessId
 

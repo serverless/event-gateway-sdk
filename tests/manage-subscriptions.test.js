@@ -2,14 +2,19 @@ const SDK = require('../lib/index')
 const eventGatewayProcesses = require('./event-gateway/processes')
 
 const functionConfig = {
+  space: 'testspace',
   functionId: 'subscription-test-function',
   provider: {
     type: 'awslambda',
-    arn: 'https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/test',
+    arn: 'arn::::',
     region: 'us-east-1',
   },
 }
-const subscriptionConfig = { functionId: 'subscription-test-function', event: 'pageVisited' }
+const subscriptionConfig = {
+  space: 'testspace',
+  functionId: 'subscription-test-function',
+  event: 'pageVisited',
+}
 
 let eventGateway
 let eventGatewayProcessId
@@ -25,6 +30,7 @@ beforeAll(() =>
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
       eventGateway = new SDK({
+        space: 'testspace',
         url: `http://localhost:${processInfo.apiPort}`,
         configurationUrl: `http://localhost:${processInfo.configPort}`,
       })
@@ -52,7 +58,7 @@ test('should add a subscription to the gateway', () => {
 test('should remove the added subscription', () => {
   expect.assertions(1)
   return eventGateway
-    .unsubscribe({ subscriptionId: 'pageVisited-subscription-test-function' })
+    .unsubscribe({ subscriptionId: 'pageVisited,subscription-test-function,%2F' })
     .then(response => {
       expect(response).toBeUndefined()
     })
@@ -70,7 +76,7 @@ test('should fail to a add a subscription to a none existing function', () => {
 test('should fail to a remove a none-existing subscription', () => {
   expect.assertions(1)
   return eventGateway
-    .unsubscribe({ subscriptionId: 'pageVisited-none-existing-function' })
+    .unsubscribe({ subscriptionId: 'pageVisited,subscription-test-function,%2F' })
     .catch(err => {
       expect(err).toMatchSnapshot()
     })
