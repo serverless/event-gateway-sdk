@@ -1,5 +1,5 @@
 const SDK = require('../lib/index')
-const eventGatewayProcesses = require('./event-gateway/processes')
+const eventGatewayProcess = require('./utils/eventGatewayProcess')
 
 const functionConfig = {
   space: 'testspace',
@@ -20,12 +20,10 @@ let eventGateway
 let eventGatewayProcessId
 
 beforeAll(() =>
-  eventGatewayProcesses
+  eventGatewayProcess
     .spawn({
       configPort: 4005,
       apiPort: 4006,
-      // embedPeerPort: 4007,
-      // embedCliPort: 4008,
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
@@ -38,7 +36,7 @@ beforeAll(() =>
 )
 
 afterAll(() => {
-  eventGatewayProcesses.shutDown(eventGatewayProcessId)
+  eventGatewayProcess.shutDown(eventGatewayProcessId)
 })
 
 test('should add a function to the gateway', () => {
