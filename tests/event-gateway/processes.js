@@ -15,10 +15,12 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000
 
 const binPath = path.join(__dirname, 'event-gateway')
 
-octokit.authenticate({
-  type: 'token',
-  token: process.env.GH_API_KEY,
-})
+if (process.env.GH_API_KEY) {
+  octokit.authenticate({
+    type: 'token',
+    token: process.env.GH_API_KEY,
+  })
+}
 const downloadPromise = fs.existsSync(binPath) ? Promise.resolve() : octokit.repos.getLatestRelease(
   { owner: 'serverless', repo: 'event-gateway' }
 ).then(response => {
