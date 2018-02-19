@@ -6,9 +6,18 @@ Node.js library to configuring the [Event Gateway](https://github.com/serverless
 
 ## Contents
 
-* [Installation](#installation)
-* [Usage](#usage)
-* [API Reference](#api-reference)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+  - [Constructor](#constructor)
+  - [List Functions](#list-functions)
+  - [Register Function](#register-function)
+  - [Delete Function](#delete-function)
+  - [List Subscriptions](#list-subscriptions)
+  - [Subscribe](#subscribe)
+  - [Unsubscribe](#unsubscribe)
+  - [Emit](#emit)
+  - [Invoke](#invoke)
 
 ## Installation
 
@@ -36,14 +45,14 @@ Use the `invoke` command to synchronously invoke backend function by name. This 
 // Construct your client
 const SDK = require('@serverless/event-gateway-sdk');
 const eventGateway = new SDK({
-	url: 'http://myeventgateway.io',
-	space: 'prod'
+  url: 'http://myeventgateway.io',
+  space: 'prod'
 })
 
 // Call your function
 eventGateway.invoke({
-	functionId: 'users.getUsers',
-	data: { "limit": 100 }
+  functionId: 'users.getUsers',
+  data: { 'limit': 100 }
 }).then((resp) => resp.json())
   .then((users) => console.log(users))
 ```
@@ -54,14 +63,14 @@ Use the `emit` command to emit a named event and payload to your Event Gateway. 
 // Construct your client
 const SDK = require('@serverless/event-gateway-sdk');
 const eventGateway = new SDK({
-	url: 'http://myeventgateway.io',
-	space: 'prod'
+  url: 'http://myeventgateway.io',
+  space: 'prod'
 })
 
 // Emit your event
 eventGateway.emit({
-	event: 'user.completedTutorial'
-	data: { "userId": 1234 }
+  event: 'user.completedTutorial'
+  data: { 'userId': 1234 }
 })
 ```
 
@@ -77,7 +86,7 @@ Object:
 - `url` - `string` - required, Events API URL
 - `configurationUrl` - `string` - Configuration API URL. By default, it's the same as `url` but with `4001` port
 - `space` - `string` - Space, default: `default`
-- `token` - `string` - Authentication token for hosted Event Gateway.
+- `apikey` - `string` - API key for hosted Event Gateway.
 - `fetchClient` - `object` - `fetch` client
 
 ```js
@@ -85,7 +94,7 @@ const SDK = require('@serverless/event-gateway-sdk');
 const eventGateway = new SDK({
   url: 'http://localhost',
   space: 'mycompany-prod',
-  token: '1234abcd' 
+  apikey: '1234abcd' 
 })
 ```
 
@@ -114,11 +123,11 @@ Function object
 
 ```js
 eventGateway.registerFunction({
-  functionId: "sendEmail",
+  functionId: 'sendEmail',
   provider: {
-    type: "awslambda",
-    arn: "xxx",
-    region: "us-west-2",
+    type:'awslambda',
+    arn: 'xxx',
+    region: 'us-west-2',
   }
 })
 ```
@@ -132,7 +141,7 @@ Object:
 - `functionId` - `string` - function ID
 
 ```js
-eventGateway.deleteFunction({ functionId: "sendEmail" })
+eventGateway.deleteFunction({ functionId: 'sendEmail' })
 ```
 
 #### List Subscriptions
@@ -160,8 +169,8 @@ Subscription object
 
 ```js
 eventGateway.subscribe({
-  event: "user.created",
-  functionId: "sendEmail"
+  event: 'user.created',
+  functionId: 'sendEmail'
 })
 ```
 
@@ -175,7 +184,7 @@ Object:
 
 ```js
 eventGateway.unsubscribe({
-  subscriptionId: "user.created-sendEmail"
+  subscriptionId: 'user.created-sendEmail'
 })
 ```
 
@@ -197,8 +206,8 @@ Object:
 
 ```js
 eventGateway.emit({
-	event: 'user.completedTutorial'
-	data: { "userId": 1234 }
+  event: 'user.completedTutorial'
+  data: { 'userId': 1234 }
 })
 ```
 
@@ -218,8 +227,8 @@ Object:
 
 ```js
 eventGateway.invoke({
-	functionId: 'users.getUsers'
-	data: { "limit": 100 }
+  functionId: 'users.getUsers'
+  data: { 'limit': 100 }
 }).then((resp) => resp.json())
   .then((users) => console.log(users))
 ```
