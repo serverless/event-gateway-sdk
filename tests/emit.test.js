@@ -1,6 +1,6 @@
 const http = require('http')
 const SDK = require('../lib/index')
-const eventGatewayProcesses = require('./event-gateway/processes')
+const eventGatewayProcess = require('./utils/eventGatewayProcess')
 const delay = require('./utils/delay')
 
 const requests = []
@@ -12,18 +12,23 @@ const server = http.createServer((request, response) => {
 })
 
 const functionConfig = {
+  space: 'default',
   functionId: 'test-emit',
   provider: {
     type: 'http',
     url: `http://localhost:${serverPort}/test/path`,
   },
 }
-const subscriptionConfig = { functionId: 'test-emit', event: 'pageVisited' }
+
+const subscriptionConfig = {
+  functionId: 'test-emit', event: 'pageVisited',
+}
+
 let eventGateway
 let eventGatewayProcessId
 
 beforeAll(done =>
-  eventGatewayProcesses
+  eventGatewayProcess
     .spawn({
       configPort: 4013,
       apiPort: 4014,
@@ -43,7 +48,7 @@ beforeAll(done =>
 )
 
 afterAll(done => {
-  eventGatewayProcesses.shutDown(eventGatewayProcessId)
+  eventGatewayProcess.shutDown(eventGatewayProcessId)
   server.close(() => {
     done()
   })

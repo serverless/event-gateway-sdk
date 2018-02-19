@@ -45,3 +45,6 @@ dist/**
 
 # rollup visualizer
 stats.html
+
+# event-gateway bin
+tests/event-gateway

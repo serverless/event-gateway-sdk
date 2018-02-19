@@ -1,7 +1,6 @@
 const SDK = require('../lib/index')
-const eventGatewayProcesses = require('./event-gateway/processes')
+const eventGatewayProcess = require('./utils/eventGatewayProcess')
 const http = require('http')
-const delay = require('./utils/delay')
 
 const serverPort = 3335
 const server = http.createServer((request, response) => {
@@ -10,17 +9,26 @@ const server = http.createServer((request, response) => {
 })
 
 const functionConfig = {
+  space: 'default',
   functionId: 'testinvoke',
   provider: {
     type: 'http',
     url: `http://localhost:${serverPort}/test/path`,
   },
 }
+
+const subscriptionConfig = {
+  space: 'default',
+  functionId: 'testinvoke',
+  event: 'invoke',
+}
+
+
 let eventGateway
 let eventGatewayProcessId
 
 beforeAll(done =>
-  eventGatewayProcesses
+  eventGatewayProcess
     .spawn({
       configPort: 4009,
       apiPort: 4010,
@@ -40,7 +48,7 @@ beforeAll(done =>
 )
 
 afterAll(done => {
-  eventGatewayProcesses.shutDown(eventGatewayProcessId)
+  eventGatewayProcess.shutDown(eventGatewayProcessId)
   server.close(() => {
     done()
   })
@@ -50,7 +58,14 @@ test('should add a function to the gateway', () => {
   expect.assertions(1)
   return eventGateway.registerFunction(functionConfig).then(response => {
     expect(response).toEqual(functionConfig)
-  }).then(delay(300))
+  })
+})
+
+test('should add a subscription to the gateway', () => {
+  expect.assertions(1)
+  return eventGateway.subscribe(subscriptionConfig).then(response => {
+    expect(response).toMatchSnapshot()
+  })
 })
 
 test('should invoke the function', () => {

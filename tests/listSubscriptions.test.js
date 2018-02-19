@@ -3,17 +3,20 @@ const eventGatewayProcess = require('./utils/eventGatewayProcess')
 
 const functionConfig = {
   space: 'testspace',
-  functionId: 'subscription-test-function',
+  functionId: 'hello',
   provider: {
     type: 'awslambda',
     arn: 'arn::::',
     region: 'us-east-1',
   },
 }
+
 const subscriptionConfig = {
   space: 'testspace',
-  functionId: 'subscription-test-function',
+  subscriptionId: 'pageVisited,hello,%2F',
+  functionId: 'hello',
   event: 'pageVisited',
+  path: '/',
 }
 
 let eventGateway
@@ -22,8 +25,10 @@ let eventGatewayProcessId
 beforeAll(() =>
   eventGatewayProcess
     .spawn({
-      configPort: 4005,
-      apiPort: 4006,
+      configPort: 4001,
+      apiPort: 4002,
+      // embedPeerPort: 4003,
+      // embedCliPort: 4004,
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
@@ -53,29 +58,9 @@ test('should add a subscription to the gateway', () => {
   })
 })
 
-test('should remove the added subscription', () => {
+test('should return list of subscriptions', () => {
   expect.assertions(1)
-  return eventGateway
-    .unsubscribe({ subscriptionId: 'pageVisited,subscription-test-function,%2F' })
-    .then(response => {
-      expect(response).toBeUndefined()
-    })
-})
-
-test('should fail to a add a subscription to a none existing function', () => {
-  expect.assertions(1)
-  const brokenConfig = { functionId: 'none-exiting-function', event: 'pageVisited' }
-
-  return eventGateway.subscribe(brokenConfig).catch(err => {
-    expect(err).toMatchSnapshot()
+  return eventGateway.listSubscriptions().then(response => {
+    expect(response).toEqual([subscriptionConfig])
   })
-})
-
-test('should fail to a remove a none-existing subscription', () => {
-  expect.assertions(1)
-  return eventGateway
-    .unsubscribe({ subscriptionId: 'pageVisited,subscription-test-function,%2F' })
-    .catch(err => {
-      expect(err).toMatchSnapshot()
-    })
 })
