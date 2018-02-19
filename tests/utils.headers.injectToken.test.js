@@ -4,14 +4,37 @@ afterEach(() => {
   delete process.env.EVENT_GATEWAY_TOKEN
 })
 
-test('should inject the Authorization header if serverless application token is present', () => {
+test('should inject the Authorization header if a token is provided', () => {
+  const token = 'hjkl-5678'
+  const headers = {
+    'Content-Type': 'application/json',
+  }
+  expect(headersUtils.injectToken(headers, token)).toEqual({
+    'Content-Type': 'application/json',
+    Authorization: 'bearer hjkl-5678',
+  })
+})
+
+test('should inject the Authorization header if serverless application token is present as env variable', () => {
   process.env.EVENT_GATEWAY_TOKEN = 'wasd-1234'
   const headers = {
     'Content-Type': 'application/json',
   }
-  expect(headersUtils.injectToken(headers)).toEqual({
+  expect(headersUtils.injectToken(headers, '')).toEqual({
     'Content-Type': 'application/json',
     Authorization: 'bearer wasd-1234',
+  })
+})
+
+test('should prefer a given token over the environment variable for Authorization header if both are present', () => {
+  process.env.EVENT_GATEWAY_TOKEN = 'wasd-1234'
+  const token = 'hjkl-5678'
+  const headers = {
+    'Content-Type': 'application/json',
+  }
+  expect(headersUtils.injectToken(headers, token)).toEqual({
+    'Content-Type': 'application/json',
+    Authorization: 'bearer hjkl-5678',
   })
 })
 
@@ -19,7 +42,7 @@ test('should return the same headers if serverless application token is NOT pres
   const headers = {
     'Content-Type': 'application/json',
   }
-  expect(headersUtils.injectToken(headers)).toEqual({
+  expect(headersUtils.injectToken(headers, '')).toEqual({
     'Content-Type': 'application/json',
   })
 })
