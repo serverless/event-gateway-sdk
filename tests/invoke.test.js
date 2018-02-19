@@ -44,8 +44,7 @@ beforeAll(done =>
           done()
         }
       })
-    })
-)
+    }))
 
 afterAll(done => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)

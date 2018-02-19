@@ -16,7 +16,6 @@ let page
 beforeEach(async () => {
   browser = await puppeteer.launch({ args: ['--no-sandbox'] })
   page = await browser.newPage()
-  return
 })
 
 afterEach(() => {

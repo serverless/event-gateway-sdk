@@ -19,29 +19,29 @@ const download = target => {
     })
   }
 
-  return octokit.repos.getReleaseByTag(release).then(response => {
-    const assets = response.data.assets
-    if (!assets || !Array.isArray(assets)) {
-      throw new Error('No assets in the latest release')
-    }
+  return octokit.repos.getReleaseByTag(release)
+    .then(response => {
+      const assets = response.data.assets
+      if (!assets || !Array.isArray(assets)) {
+        throw new Error('No assets in the latest release')
+      }
 
-    const toDownload = assets.find(
-      asset => asset && asset.name && asset.name.includes(`${process.platform}_amd64`))
-    if (!toDownload) {
-      throw new Error('No asset found in the latest release that matches the platform')
-    }
+      const toDownload = assets.find(asset => asset && asset.name && asset.name.includes(`${process.platform}_amd64`))
+      if (!toDownload) {
+        throw new Error('No asset found in the latest release that matches the platform')
+      }
 
-    return new Promise((resolve, reject) => {
-      const gotStream = got.stream(toDownload.browser_download_url)
-      // eslint-disable-next-line
-      const extractionStream = gotStream.pipe(unzipper.Extract({ path: target }))
-      extractionStream.on('close', resolve)
-      extractionStream.on('error', reject)
+      return new Promise((resolve, reject) => {
+        const gotStream = got.stream(toDownload.browser_download_url)
+        // eslint-disable-next-line
+        const extractionStream = gotStream.pipe(unzipper.Extract({ path: target }))
+        extractionStream.on('close', resolve)
+        extractionStream.on('error', reject)
+      })
     })
-  })
-  .catch(error => {
-    throw new Error((error.response && error.response.body) || (error && error.message))
-  })
+    .catch(error => {
+      throw new Error((error.response && error.response.body) || (error && error.message))
+    })
 }
 
 const main = () => {

@@ -32,8 +32,7 @@ beforeAll(() =>
         url: `http://localhost:${processInfo.apiPort}`,
         configurationUrl: `http://localhost:${processInfo.configPort}`,
       })
-    })
-)
+    }))
 
 afterAll(() => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)
