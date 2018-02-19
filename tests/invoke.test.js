@@ -1,5 +1,5 @@
 const SDK = require('../lib/index')
-const eventGatewayProcesses = require('./event-gateway/processes')
+const eventGatewayProcess = require('./utils/eventGatewayProcess')
 const http = require('http')
 const delay = require('./utils/delay')
 
@@ -20,7 +20,7 @@ let eventGateway
 let eventGatewayProcessId
 
 beforeAll(done =>
-  eventGatewayProcesses
+  eventGatewayProcess
     .spawn({
       configPort: 4009,
       apiPort: 4010,
@@ -40,7 +40,7 @@ beforeAll(done =>
 )
 
 afterAll(done => {
-  eventGatewayProcesses.shutDown(eventGatewayProcessId)
+  eventGatewayProcess.shutDown(eventGatewayProcessId)
   server.close(() => {
     done()
   })
