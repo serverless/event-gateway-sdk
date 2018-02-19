@@ -24,15 +24,12 @@ module.exports = {
       processStore[processId] = spawn(binary, args, {
         stdio: 'inherit',
       })
-      setTimeout(
-        () =>
-          resolve({
-            id: processId,
-            configPort: ports.configPort,
-            apiPort: ports.apiPort,
-          }),
-        4000
-      )
+      setTimeout(() =>
+        resolve({
+          id: processId,
+          configPort: ports.configPort,
+          apiPort: ports.apiPort,
+        }), 4000)
     }),
 
   shutDown: id => {

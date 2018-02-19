@@ -1,4 +1,4 @@
-# EventGateway-SDK
+# Event Gateway Javascript SDK
 
 Node.js library to configuring the [Event Gateway](https://github.com/serverless/event-gateway).
 
@@ -16,7 +16,7 @@ npm install @serverless/event-gateway-sdk
 <script type="text/javascript" src="https://unpkg.com/@serverless/event-gateway-sdk@latest/dist/event-gateway-sdk.min.js"></script>
 ```
 
-The EventGatewaySDK will then be attached to window e.g. and you can access it via `window.EventGatewaySDK`
+The EventGateway SDK will then be attached to window e.g. and you can access it via `window.EventGatewaySDK`
 
 ## API
 
