@@ -1,6 +1,6 @@
-# Event Gateway Javascript SDK
+# Event Gateway JavaScript SDK
 
-Node.js library to configuring the [Event Gateway](https://github.com/serverless/event-gateway).
+JavaScript library for interacting with the [Event Gateway](https://github.com/serverless/event-gateway).
 
 [![Build Status](https://travis-ci.org/serverless/event-gateway-sdk.svg?branch=master)](https://travis-ci.org/serverless/event-gateway-sdk)
 
@@ -94,7 +94,7 @@ const SDK = require('@serverless/event-gateway-sdk');
 const eventGateway = new SDK({
   url: 'http://localhost',
   space: 'mycompany-prod',
-  apikey: '1234abcd' 
+  apikey: '1234abcd'
 })
 ```
 
@@ -102,7 +102,9 @@ const eventGateway = new SDK({
 
 #### List Functions
 
-**Returns** array of function objects
+**Returns**
+
+Promise object resolving to array of function objects
 
 ```js
 eventGateway.listFunctions()
@@ -119,7 +121,7 @@ Object:
 
 **Returns**
 
-Function object
+Promise object resolving to Function object
 
 ```js
 eventGateway.registerFunction({
@@ -148,7 +150,7 @@ eventGateway.deleteFunction({ functionId: 'sendEmail' })
 
 **Returns**
 
-Array of subscription objects
+Promise object resolving to array of subscription objects
 
 ```js
 eventGateway.listSubscriptions()
@@ -165,7 +167,7 @@ Object:
 
 **Returns**
 
-Subscription object
+Promise object resolving to Subscription object
 
 ```js
 eventGateway.subscribe({
@@ -192,7 +194,7 @@ eventGateway.unsubscribe({
 
 #### Emit
 
-**Parameters:**
+**Parameters**
 
 Object:
 
@@ -200,7 +202,7 @@ Object:
 - `data` - `object` or `string` - Payload to include with event. If `dataType` is `"application/json"`, data will be stringified before sending.
 - `dataType` - `string` - Data type of payload. Default is `"application/json"`
 
-**Returns:**
+**Returns**
 
 `fetch` response object.
 
@@ -213,7 +215,7 @@ eventGateway.emit({
 
 #### Invoke
 
-**Parameters:**
+**Parameters**
 
 Object:
 
@@ -221,7 +223,7 @@ Object:
 - `data` - `object` or `string` - Payload to include with invocation. If `dataType` is `"application/json"`, data will be stringified before sending.
 - `dataType` - `string` - Data type of payload. Default is `"application/json"`
 
-**Returns:**
+**Returns**
 
 `fetch` response object.
 
