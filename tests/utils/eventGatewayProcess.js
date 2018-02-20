@@ -19,21 +19,24 @@ module.exports = {
         '--dev',
         `--embed-data-dir=${processId}`,
         `--config-port=${ports.configPort}`,
-        `--events-port=${ports.apiPort}`,
+        `--events-port=${ports.apiPort}`
       ]
       processStore[processId] = spawn(binary, args, {
-        stdio: 'inherit',
+        stdio: 'inherit'
       })
-      setTimeout(() =>
-        resolve({
-          id: processId,
-          configPort: ports.configPort,
-          apiPort: ports.apiPort,
-        }), 4000)
+      setTimeout(
+        () =>
+          resolve({
+            id: processId,
+            configPort: ports.configPort,
+            apiPort: ports.apiPort
+          }),
+        4000
+      )
     }),
 
   shutDown: id => {
     processStore[id].kill()
     rimraf.sync(`./${id}`)
-  },
+  }
 }

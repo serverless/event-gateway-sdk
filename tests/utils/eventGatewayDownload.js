@@ -8,18 +8,19 @@ const octokit = require('@octokit/rest')()
 const release = {
   owner: 'serverless',
   repo: 'event-gateway',
-  tag: '0.6.0',
+  tag: '0.6.0'
 }
 
 const download = target => {
   if (process.env.GH_API_KEY) {
     octokit.authenticate({
       type: 'token',
-      token: process.env.GH_API_KEY,
+      token: process.env.GH_API_KEY
     })
   }
 
-  return octokit.repos.getReleaseByTag(release)
+  return octokit.repos
+    .getReleaseByTag(release)
     .then(response => {
       const assets = response.data.assets
       if (!assets || !Array.isArray(assets)) {

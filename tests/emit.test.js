@@ -16,12 +16,13 @@ const functionConfig = {
   functionId: 'test-emit',
   provider: {
     type: 'http',
-    url: `http://localhost:${serverPort}/test/path`,
-  },
+    url: `http://localhost:${serverPort}/test/path`
+  }
 }
 
 const subscriptionConfig = {
-  functionId: 'test-emit', event: 'pageVisited',
+  functionId: 'test-emit',
+  event: 'pageVisited'
 }
 
 let eventGateway
@@ -31,20 +32,21 @@ beforeAll(done =>
   eventGatewayProcess
     .spawn({
       configPort: 4013,
-      apiPort: 4014,
+      apiPort: 4014
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
       eventGateway = new SDK({
         url: `http://localhost:${processInfo.apiPort}`,
-        configurationUrl: `http://localhost:${processInfo.configPort}`,
+        configurationUrl: `http://localhost:${processInfo.configPort}`
       })
       server.listen(serverPort, err => {
         if (!err) {
           done()
         }
       })
-    }))
+    })
+)
 
 afterAll(done => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)
@@ -72,7 +74,7 @@ test('should invoke the subscribed function when emitting an event', () => {
   return eventGateway
     .emit({
       event: 'pageVisited',
-      data: { userId: '1234' },
+      data: { userId: '1234' }
     })
     .then(delay(300))
     .then(response => {
@@ -87,7 +89,7 @@ test('should invoke the subscribed function with an event with dataType text/pla
     .emit({
       event: 'pageVisited',
       data: 'This is a test text.',
-      dataType: 'text/plain',
+      dataType: 'text/plain'
     })
     .then(delay(300))
     .then(response => {

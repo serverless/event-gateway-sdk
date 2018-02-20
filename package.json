@@ -17,12 +17,16 @@
     "url-parse": "^1.1.9"
   },
   "devDependencies": {
+    "@octokit/rest": "^14.0.9",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "eslint": "^4.18.0",
-    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^4.0.1",
+    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "got": "^8.1.0",
     "jest": "^20.0.4",
     "puppeteer": "^0.9.0",
     "rimraf": "^2.6.1",
@@ -34,40 +38,20 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-plugin-visualizer": "^0.3.1",
-    "uuid": "^3.1.0",
-    "@octokit/rest": "^14.0.9",
-    "got": "^8.1.0",
-    "unzipper": "^0.8.11"
+    "unzipper": "^0.8.11",
+    "uuid": "^3.1.0"
   },
   "eslintConfig": {
-    "plugins": [
-      "node"
-    ],
-    "extends": [
-      "airbnb-base",
-      "plugin:node/recommended"
-    ],
+    "extends": "standard",
     "env": {
       "node": true,
       "jest": true
     },
     "rules": {
-      "strict": "off",
-      "prefer-destructuring": "off",
-      "node/no-unsupported-features": "error",
-      "semi": [
-        "error",
-        "never"
-      ],
-      "arrow-parens": [
-        "error",
-        "as-needed"
-      ]
+      "node/no-unsupported-features": "error"
     }
   },
-  "eslintIgnore": [
-    "dist/*"
-  ],
+  "eslintIgnore": ["dist/*"],
   "engines": {
     "node": ">=4.3"
   },
