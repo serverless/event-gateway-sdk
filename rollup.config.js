@@ -18,17 +18,17 @@ const plugins = [
     // NOTE setting browser to true makes sure only the browser relevant
     // entry point for libraries is used e.g. isomorphic-fetch
     browser: true,
-    preferBuiltins: false,
+    preferBuiltins: false
   }),
   commonjs(),
   babel({
     babelrc: false,
     presets: [['env', { modules: false }]],
-    plugins: ['external-helpers'],
+    plugins: ['external-helpers']
   }),
   uglify(),
   visualizer(),
-  sourcemaps(),
+  sourcemaps()
 ]
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
     file: 'dist/event-gateway-sdk.min.js',
     name: 'EventGateway',
     exports: 'default',
-    sourcemap: true,
+    sourcemap: true
   },
-  plugins,
+  plugins
 }

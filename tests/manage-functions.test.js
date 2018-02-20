@@ -7,8 +7,8 @@ const functionConfig = {
   provider: {
     type: 'awslambda',
     arn: 'arn::::',
-    region: 'us-east-1',
-  },
+    region: 'us-east-1'
+  }
 }
 let eventGateway
 let eventGatewayProcessId
@@ -17,16 +17,17 @@ beforeAll(() =>
   eventGatewayProcess
     .spawn({
       configPort: 4001,
-      apiPort: 4002,
+      apiPort: 4002
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
       eventGateway = new SDK({
         space: 'testspace',
         url: `http://localhost:${processInfo.apiPort}`,
-        configurationUrl: `http://localhost:${processInfo.configPort}`,
+        configurationUrl: `http://localhost:${processInfo.configPort}`
       })
-    }))
+    })
+)
 
 afterAll(() => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)

@@ -13,16 +13,15 @@ const functionConfig = {
   functionId: 'testinvoke',
   provider: {
     type: 'http',
-    url: `http://localhost:${serverPort}/test/path`,
-  },
+    url: `http://localhost:${serverPort}/test/path`
+  }
 }
 
 const subscriptionConfig = {
   space: 'default',
   functionId: 'testinvoke',
-  event: 'invoke',
+  event: 'invoke'
 }
-
 
 let eventGateway
 let eventGatewayProcessId
@@ -31,20 +30,21 @@ beforeAll(done =>
   eventGatewayProcess
     .spawn({
       configPort: 4009,
-      apiPort: 4010,
+      apiPort: 4010
     })
     .then(processInfo => {
       eventGatewayProcessId = processInfo.id
       eventGateway = new SDK({
         url: `http://localhost:${processInfo.apiPort}`,
-        configurationUrl: `http://localhost:${processInfo.configPort}`,
+        configurationUrl: `http://localhost:${processInfo.configPort}`
       })
       server.listen(serverPort, err => {
         if (!err) {
           done()
         }
       })
-    }))
+    })
+)
 
 afterAll(done => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)
@@ -72,7 +72,7 @@ test('should invoke the function', () => {
   return eventGateway
     .invoke({
       functionId: 'testinvoke',
-      data: { name: 'Austen' },
+      data: { name: 'Austen' }
     })
     .then(response => {
       expect(response.status).toEqual(200)
@@ -89,7 +89,7 @@ test('should invoke the function with dataType text/plain', () => {
     .invoke({
       functionId: 'testinvoke',
       data: 'test message',
-      dataType: 'text/plain',
+      dataType: 'text/plain'
     })
     .then(response => {
       expect(response.status).toEqual(200)
@@ -106,7 +106,7 @@ test('should invoke the function with dataType application/octet-stream', () => 
     .invoke({
       functionId: 'testinvoke',
       data: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
-      dataType: 'application/octet-stream',
+      dataType: 'application/octet-stream'
     })
     .then(response => {
       expect(response.status).toEqual(200)
@@ -122,7 +122,7 @@ test('should throw an error if the function does not exist', () => {
   return eventGateway
     .invoke({
       functionId: 'not-existing-function',
-      data: { name: 'Austen' },
+      data: { name: 'Austen' }
     })
     .catch(err => {
       expect(err).toMatchSnapshot()
