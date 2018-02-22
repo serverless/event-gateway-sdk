@@ -117,7 +117,9 @@ eventGateway.listFunctions()
 Object:
 
 - `functionId` - `string` - function ID
-- `provider` - `object` - [provider object](https://github.com/serverless/event-gateway#register-function)
+- `provider` - `object` - provider spec
+
+For more details see Event Gateway [Register Functions docs](https://github.com/serverless/event-gateway#register-function).
 
 **Returns**
 
@@ -164,6 +166,11 @@ Object:
 
 - `event` - `string` - event type
 - `functionId` - `string` - function ID
+- `path` - `string` - optional, subscription path, default: `/`
+- `method` - `string` - required for HTTP subscription, HTTP method
+- `cors` - `object` - optional for HTTP subscriptions, CORS configuration
+
+For more details see Event Gateway [Create Subscription docs](https://github.com/serverless/event-gateway#create-subscription).
 
 **Returns**
 
