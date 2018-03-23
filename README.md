@@ -12,6 +12,7 @@ JavaScript library for interacting with the [Event Gateway](https://github.com/s
   - [Constructor](#constructor)
   - [List Functions](#list-functions)
   - [Register Function](#register-function)
+  - [Update Function](#update-function)
   - [Delete Function](#delete-function)
   - [List Subscriptions](#list-subscriptions)
   - [Subscribe](#subscribe)
@@ -117,6 +118,7 @@ eventGateway.listFunctions()
 Object:
 
 - `functionId` - `string` - function ID
+- `type` - `string` - Type of function provider
 - `provider` - `object` - provider spec
 
 For more details see Event Gateway [Register Functions docs](https://github.com/serverless/event-gateway#register-function).
@@ -128,8 +130,35 @@ Promise object resolving to Function object
 ```js
 eventGateway.registerFunction({
   functionId: 'sendEmail',
+  type:'awslambda',
   provider: {
-    type:'awslambda',
+    arn: 'xxx',
+    region: 'us-west-2',
+  }
+})
+```
+
+#### Update Function
+
+**Parameters**
+
+Object:
+
+- `functionId` - `string` - function ID
+- `type` - `string` - Type of function provider
+- `provider` - `object` - provider spec
+
+For more details see Event Gateway [Update Functions docs](https://github.com/serverless/event-gateway#update-function).
+
+**Returns**
+
+Promise object resolving to Function object
+
+```js
+eventGateway.updateFunction({
+  functionId: 'sendEmail',
+  type:'awslambda',
+  provider: {
     arn: 'xxx',
     region: 'us-west-2',
   }
