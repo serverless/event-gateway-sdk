@@ -117,6 +117,7 @@ eventGateway.listFunctions()
 Object:
 
 - `functionId` - `string` - function ID
+- `type` - `string` - provider type
 - `provider` - `object` - provider spec
 
 For more details see Event Gateway [Register Functions docs](https://github.com/serverless/event-gateway#register-function).
@@ -128,8 +129,8 @@ Promise object resolving to Function object
 ```js
 eventGateway.registerFunction({
   functionId: 'sendEmail',
+  type: 'awslambda',
   provider: {
-    type:'awslambda',
     arn: 'xxx',
     region: 'us-west-2',
   }
