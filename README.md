@@ -6,18 +6,18 @@ JavaScript library for interacting with the [Event Gateway](https://github.com/s
 
 ## Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Reference](#api-reference)
-  - [Constructor](#constructor)
-  - [List Functions](#list-functions)
-  - [Register Function](#register-function)
-  - [Delete Function](#delete-function)
-  - [List Subscriptions](#list-subscriptions)
-  - [Subscribe](#subscribe)
-  - [Unsubscribe](#unsubscribe)
-  - [Emit](#emit)
-  - [Invoke](#invoke)
+* [Installation](#installation)
+* [Usage](#usage)
+* [API Reference](#api-reference)
+  * [Constructor](#constructor)
+  * [List Functions](#list-functions)
+  * [Register Function](#register-function)
+  * [Delete Function](#delete-function)
+  * [List Subscriptions](#list-subscriptions)
+  * [Subscribe](#subscribe)
+  * [Unsubscribe](#unsubscribe)
+  * [Emit](#emit)
+  * [Invoke](#invoke)
 
 ## Installation
 
@@ -43,18 +43,20 @@ Use the `invoke` command to synchronously invoke backend function by name. This 
 
 ```javascript
 // Construct your client
-const SDK = require('@serverless/event-gateway-sdk');
+const SDK = require('@serverless/event-gateway-sdk')
 const eventGateway = new SDK({
   url: 'http://myeventgateway.io',
   space: 'prod'
 })
 
 // Call your function
-eventGateway.invoke({
-  functionId: 'users.getUsers',
-  data: { 'limit': 100 }
-}).then((resp) => resp.json())
-  .then((users) => console.log(users))
+eventGateway
+  .invoke({
+    functionId: 'users.getUsers',
+    data: { limit: 100 }
+  })
+  .then(resp => resp.json())
+  .then(users => console.log(users))
 ```
 
 Use the `emit` command to emit a named event and payload to your Event Gateway. The event will be received by any function that is subscribed to your event.
@@ -74,7 +76,6 @@ eventGateway.emit({
 })
 ```
 
-
 ## API Reference
 
 ### Constructor
@@ -83,14 +84,14 @@ eventGateway.emit({
 
 Object:
 
-- `url` - `string` - required, Events API URL
-- `configurationUrl` - `string` - Configuration API URL. By default, it's the same as `url` but with `4001` port
-- `space` - `string` - Space, default: `default`
-- `apikey` - `string` - API key for hosted Event Gateway.
-- `fetchClient` - `object` - `fetch` client
+* `url` - `string` - required, Events API URL
+* `configurationUrl` - `string` - Configuration API URL. By default, it's the same as `url` but with `4001` port
+* `space` - `string` - Space, default: `default`
+* `apiKey` - `string` - API key for hosted Event Gateway.
+* `fetchClient` - `object` - `fetch` client
 
 ```js
-const SDK = require('@serverless/event-gateway-sdk');
+const SDK = require('@serverless/event-gateway-sdk')
 const eventGateway = new SDK({
   url: 'http://localhost',
   space: 'mycompany-prod',
@@ -116,8 +117,8 @@ eventGateway.listFunctions()
 
 Object:
 
-- `functionId` - `string` - function ID
-- `provider` - `object` - [provider object](https://github.com/serverless/event-gateway#register-function)
+* `functionId` - `string` - function ID
+* `provider` - `object` - [provider object](https://github.com/serverless/event-gateway#register-function)
 
 **Returns**
 
@@ -127,9 +128,9 @@ Promise object resolving to Function object
 eventGateway.registerFunction({
   functionId: 'sendEmail',
   provider: {
-    type:'awslambda',
+    type: 'awslambda',
     arn: 'xxx',
-    region: 'us-west-2',
+    region: 'us-west-2'
   }
 })
 ```
@@ -140,7 +141,7 @@ eventGateway.registerFunction({
 
 Object:
 
-- `functionId` - `string` - function ID
+* `functionId` - `string` - function ID
 
 ```js
 eventGateway.deleteFunction({ functionId: 'sendEmail' })
@@ -162,8 +163,8 @@ eventGateway.listSubscriptions()
 
 Object:
 
-- `event` - `string` - event type
-- `functionId` - `string` - function ID
+* `event` - `string` - event type
+* `functionId` - `string` - function ID
 
 **Returns**
 
@@ -182,7 +183,7 @@ eventGateway.subscribe({
 
 Object:
 
-- `subscriptionId` - `string` - subscription ID
+* `subscriptionId` - `string` - subscription ID
 
 ```js
 eventGateway.unsubscribe({
@@ -198,9 +199,9 @@ eventGateway.unsubscribe({
 
 Object:
 
-- `event` - `string` - Name of event to emit
-- `data` - `object` or `string` - Payload to include with event. If `dataType` is `"application/json"`, data will be stringified before sending.
-- `dataType` - `string` - Data type of payload. Default is `"application/json"`
+* `event` - `string` - Name of event to emit
+* `data` - `object` or `string` - Payload to include with event. If `dataType` is `"application/json"`, data will be stringified before sending.
+* `dataType` - `string` - Data type of payload. Default is `"application/json"`
 
 **Returns**
 
@@ -219,9 +220,9 @@ eventGateway.emit({
 
 Object:
 
-- `functionId` - `string` - Name of function to invoke
-- `data` - `object` or `string` - Payload to include with invocation. If `dataType` is `"application/json"`, data will be stringified before sending.
-- `dataType` - `string` - Data type of payload. Default is `"application/json"`
+* `functionId` - `string` - Name of function to invoke
+* `data` - `object` or `string` - Payload to include with invocation. If `dataType` is `"application/json"`, data will be stringified before sending.
+* `dataType` - `string` - Data type of payload. Default is `"application/json"`
 
 **Returns**
 
