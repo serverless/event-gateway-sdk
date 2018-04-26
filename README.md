@@ -118,7 +118,7 @@ eventGateway.listFunctions()
 Object:
 
 - `functionId` - `string` - function ID
-- `type` - `string` - Type of function provider
+- `type` - `string` - type of function provider
 - `provider` - `object` - provider spec
 
 For more details see Event Gateway [Register Functions docs](https://github.com/serverless/event-gateway#register-function).
@@ -145,7 +145,7 @@ eventGateway.registerFunction({
 Object:
 
 - `functionId` - `string` - function ID
-- `type` - `string` - Type of function provider
+- `type` - `string` - type of function provider
 - `provider` - `object` - provider spec
 
 For more details see Event Gateway [Update Functions docs](https://github.com/serverless/event-gateway#update-function).
