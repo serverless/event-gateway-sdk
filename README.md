@@ -95,7 +95,7 @@ const SDK = require('@serverless/event-gateway-sdk')
 const eventGateway = new SDK({
   url: 'http://localhost',
   space: 'mycompany-prod',
-  apikey: '1234abcd'
+  apiKey: '1234abcd'
 })
 ```
 
