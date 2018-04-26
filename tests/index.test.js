@@ -53,7 +53,7 @@ describe('SDK', () => {
         new SDK({ url: 'test-app.slsgateway.com' })
       }
 
-      expect(init).toThrowError('apiKey is required for configuring SDK for hosted Event Gateway')
+      expect(init).toThrowError('Required "apiKey" property is missing from Event Gateway configuration')
     })
   })
 })
