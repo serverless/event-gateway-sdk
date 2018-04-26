@@ -117,18 +117,11 @@ eventGateway.listFunctions()
 
 Object:
 
-<<<<<<< HEAD
-
 * `functionId` - `string` - function ID
-* # `provider` - `object` - [provider object](https://github.com/serverless/event-gateway#register-function)
-
-- `functionId` - `string` - function ID
-- `type` - `string` - provider type
-- `provider` - `object` - provider spec
+* `type` - `string` - provider type
+* `provider` - `object` - provider spec
 
 For more details see Event Gateway [Register Functions docs](https://github.com/serverless/event-gateway#register-function).
-
-> > > > > > > master
 
 **Returns**
 
@@ -139,10 +132,6 @@ eventGateway.registerFunction({
   functionId: 'sendEmail',
   type: 'awslambda',
   provider: {
-<<<<<<< HEAD
-    type: 'awslambda',
-=======
->>>>>>> master
     arn: 'xxx',
     region: 'us-west-2'
   }
@@ -177,20 +166,13 @@ eventGateway.listSubscriptions()
 
 Object:
 
-<<<<<<< HEAD
-
 * `event` - `string` - event type
-* # `functionId` - `string` - function ID
-
-- `event` - `string` - event type
-- `functionId` - `string` - function ID
-- `path` - `string` - optional, subscription path, default: `/`
-- `method` - `string` - required for HTTP subscription, HTTP method
-- `cors` - `object` - optional for HTTP subscriptions, CORS configuration
+* `functionId` - `string` - function ID
+* `path` - `string` - optional, subscription path, default: `/`
+* `method` - `string` - required for HTTP subscription, HTTP method
+* `cors` - `object` - optional for HTTP subscriptions, CORS configuration
 
 For more details see Event Gateway [Create Subscription docs](https://github.com/serverless/event-gateway#create-subscription).
-
-> > > > > > > master
 
 **Returns**
 
