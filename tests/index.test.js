@@ -38,12 +38,21 @@ describe('SDK', () => {
     test('should ignore space and config URL from config', () => {
       const sdk = new SDK({
         url: 'test-app.slsgateway.com',
+        apiKey: 'xxx',
         configurationUrl: 'http://localhost:4001',
         space: 'hello'
       })
 
       expect(sdk.config.space).not.toEqual('hello')
       expect(sdk.config.configurationUrl).not.toEqual('http://localhost:4001')
+    })
+
+    test('should throw expection if apiKey is not provided', () => {
+      function init () {
+        new SDK({ url: 'test-app.slsgateway.com' })
+      }
+
+      expect(init).toThrowError('apiKey is required for configuring SDK for hosted Event Gateway')
     })
   })
 })
