@@ -10,6 +10,15 @@ const functionConfig = {
     region: 'us-east-1'
   }
 }
+const updatedConfig = {
+  space: 'testspace',
+  functionId: 'hello',
+  provider: {
+    type: 'awslambda',
+    arn: 'arn::::',
+    region: 'us-west-1'
+  }
+}
 let eventGateway
 let eventGatewayProcessId
 
@@ -46,6 +55,13 @@ test('should fail to re-add the same function', () => {
   })
 })
 
+test('should update an existing function', () => {
+  expect.assertions(1)
+  return eventGateway.updateFunction(updatedConfig).then(response => {
+    expect(response).toEqual(updatedConfig)
+  })
+})
+
 test('should remove the added function', () => {
   expect.assertions(1)
   return eventGateway.deleteFunction({ functionId: 'hello' }).then(response => {
@@ -53,9 +69,16 @@ test('should remove the added function', () => {
   })
 })
 
-test('should fail to remove a none-existing function', () => {
+test('should fail to remove a non-existing function', () => {
   expect.assertions(1)
   return eventGateway.deleteFunction({ functionId: 'missing-func' }).catch(err => {
+    expect(err).toMatchSnapshot()
+  })
+})
+
+test('should fail to update a non-existing function', () => {
+  expect.assertions(1)
+  return eventGateway.updateFunction(updatedConfig).catch(err => {
     expect(err).toMatchSnapshot()
   })
 })
