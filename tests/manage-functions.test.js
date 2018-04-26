@@ -13,8 +13,8 @@ const functionConfig = {
 const updatedConfig = {
   space: 'testspace',
   functionId: 'hello',
+  type: 'awslambda',
   provider: {
-    type: 'awslambda',
     arn: 'arn::::',
     region: 'us-west-1'
   }
