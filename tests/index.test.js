@@ -49,6 +49,7 @@ describe('SDK', () => {
 
     test('should throw expection if apiKey is not provided', () => {
       function init () {
+        // eslint-disable-next-line
         new SDK({ url: 'test-app.slsgateway.com' })
       }
 
