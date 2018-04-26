@@ -4,11 +4,12 @@ const got = require('got')
 // eslint-disable-next-line node/no-unpublished-require, import/no-extraneous-dependencies
 const unzipper = require('unzipper')
 const octokit = require('@octokit/rest')()
+const version = require('./version')
 
 const release = {
   owner: 'serverless',
   repo: 'event-gateway',
-  tag: '0.6.0'
+  tag: version.EventGatewayVersion
 }
 
 const download = target => {

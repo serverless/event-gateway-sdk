@@ -4,8 +4,8 @@ const eventGatewayProcess = require('./utils/eventGatewayProcess')
 const functionConfig = {
   space: 'testspace',
   functionId: 'hello',
+  type: 'awslambda',
   provider: {
-    type: 'awslambda',
     arn: 'arn::::',
     region: 'us-east-1'
   }
@@ -26,8 +26,7 @@ beforeAll(() =>
         url: `http://localhost:${processInfo.apiPort}`,
         configurationUrl: `http://localhost:${processInfo.configPort}`
       })
-    })
-)
+    }))
 
 afterAll(() => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)
