@@ -14,8 +14,8 @@ const server = http.createServer((request, response) => {
 const functionConfig = {
   space: 'default',
   functionId: 'test-emit',
+  type: 'http',
   provider: {
-    type: 'http',
     url: `http://localhost:${serverPort}/test/path`
   }
 }
@@ -45,8 +45,7 @@ beforeAll(done =>
           done()
         }
       })
-    })
-)
+    }))
 
 afterAll(done => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)

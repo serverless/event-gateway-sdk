@@ -4,12 +4,13 @@ const spawn = require('child_process').spawn
 const uuidv1 = require('uuid/v1')
 // eslint-disable-next-line node/no-unpublished-require, import/no-extraneous-dependencies
 const rimraf = require('rimraf')
+const version = require('./version')
 
 // eslint-disable-next-line no-undef
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000
 
 const processStore = {}
-const binary = path.join(__dirname, '../event-gateway/0.6.0/event-gateway')
+const binary = path.join(__dirname, `../event-gateway/${version.EventGatewayVersion}/event-gateway`)
 
 module.exports = {
   spawn: ports =>
