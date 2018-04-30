@@ -87,7 +87,7 @@ Object:
 - `url` - `string` - required, Events API URL
 - `configurationUrl` - `string` -  optional, Configuration API URL. By default, it's the same as `url` but with `4001` port
 - `space` - `string` - optional, space name, default: `default`
-- `apiKey` - `string` - optional, API key for hosted Event Gateway. API key is required for using Configuration API methods on hosted Event Gateway
+- `accessKey` - `string` - optional, access key for hosted Event Gateway. Access key is required for using Configuration API methods on hosted Event Gateway
 - `fetchClient` - `object` - optional, `fetch` client
 
 ```js
@@ -95,7 +95,7 @@ const SDK = require('@serverless/event-gateway-sdk');
 const eventGateway = new SDK({
   url: 'http://localhost',
   space: 'mycompany-prod',
-  apiKey: '1234abcd'
+  accessKey: '1234abcd'
 })
 ```
 
