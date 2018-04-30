@@ -13,6 +13,8 @@ const release = {
 }
 
 const download = target => {
+  console.log(111111111111111111111111111111, process.env.GH_API_KEY)
+
   if (process.env.GH_API_KEY) {
     octokit.authenticate({
       type: 'token',
