@@ -12,13 +12,13 @@ describe('SDK', () => {
       expect(sdk.config.space).toEqual('default')
     })
 
-    test('should ignore apiKey from config', () => {
+    test('should ignore accessKey from config', () => {
       const sdk = new SDK({
         url: 'localhost:4000',
-        apiKey: 'xxx'
+        accessKey: 'xxx'
       })
 
-      expect(sdk.config.apiKey).toBeUndefined()
+      expect(sdk.config.accessKey).toBeUndefined()
     })
   })
 
@@ -26,19 +26,19 @@ describe('SDK', () => {
     test('should create config based on URL', () => {
       const sdk = new SDK({
         url: 'test-app.slsgateway.com',
-        apiKey: 'xxx'
+        accessKey: 'xxx'
       })
 
       expect(sdk.config.eventsUrl).toEqual('https://test-app.slsgateway.com')
       expect(sdk.config.configurationUrl).toEqual('https://config.slsgateway.com')
       expect(sdk.config.space).toEqual('test-app')
-      expect(sdk.config.apiKey).toEqual('xxx')
+      expect(sdk.config.accessKey).toEqual('xxx')
     })
 
     test('should ignore space and config URL from config', () => {
       const sdk = new SDK({
         url: 'test-app.slsgateway.com',
-        apiKey: 'xxx',
+        accessKey: 'xxx',
         configurationUrl: 'http://localhost:4001',
         space: 'hello'
       })
