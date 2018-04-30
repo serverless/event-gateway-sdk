@@ -46,14 +46,5 @@ describe('SDK', () => {
       expect(sdk.config.space).not.toEqual('hello')
       expect(sdk.config.configurationUrl).not.toEqual('http://localhost:4001')
     })
-
-    test('should throw expection if apiKey is not provided', () => {
-      function init () {
-        // eslint-disable-next-line
-        new SDK({ url: 'test-app.slsgateway.com' })
-      }
-
-      expect(init).toThrowError('Required "apiKey" property is missing from Event Gateway configuration')
-    })
   })
 })

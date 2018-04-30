@@ -85,10 +85,10 @@ eventGateway.emit({
 Object:
 
 - `url` - `string` - required, Events API URL
-- `configurationUrl` - `string` - Configuration API URL. By default, it's the same as `url` but with `4001` port
-- `space` - `string` - Space, default: `default`
-- `apiKey` - `string` - API key for hosted Event Gateway.
-- `fetchClient` - `object` - `fetch` client
+- `configurationUrl` - `string` -  optional, Configuration API URL. By default, it's the same as `url` but with `4001` port
+- `space` - `string` - optional, space name, default: `default`
+- `apiKey` - `string` - optional, API key for hosted Event Gateway. API key is required for using Configuration API methods on hosted Event Gateway
+- `fetchClient` - `object` - optional, `fetch` client
 
 ```js
 const SDK = require('@serverless/event-gateway-sdk');
