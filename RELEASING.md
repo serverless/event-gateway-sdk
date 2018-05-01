@@ -1,6 +1,6 @@
 # Releasing Event Gateway SDK
 
-After all [pull requests](https://github.com/serverless/serverless-event-gateway-plugin/pulls) for a release have been merged and all [Travis CI builds](https://travis-ci.org/serverless/serverless-event-gateway-plugin) are green, you may create a release as follows:
+After all [pull requests](https://github.com/serverless/event-gateway-sdk/pulls) for a release have been merged and all [Travis CI builds](https://travis-ci.org/serverless/event-gateway-sdk) are green, you may create a release as follows:
 
 1. If you haven't already, switch to the master branch, ensure that you have no changes, and pull from origin.
 
