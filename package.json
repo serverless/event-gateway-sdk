@@ -4,6 +4,7 @@
   "license": "MIT",
   "repository": "https://github.com/serverless/event-gateway-sdk",
   "main": "lib/index.js",
+  "browser": "dist/event-gateway-sdk.min.js",
   "scripts": {
     "lint": "eslint .",
     "test": "node tests/utils/eventGatewayDownload.js && jest --maxWorkers=1",
@@ -51,7 +52,9 @@
       "node/no-unsupported-features": "error"
     }
   },
-  "eslintIgnore": ["dist/*"],
+  "eslintIgnore": [
+    "dist/*"
+  ],
   "engines": {
     "node": ">=4.3"
   },
