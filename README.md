@@ -18,7 +18,6 @@ JavaScript library for interacting with the [Event Gateway](https://github.com/s
   - [Subscribe](#subscribe)
   - [Unsubscribe](#unsubscribe)
   - [Emit](#emit)
-  - [Invoke](#invoke)
 
 ## Installation
 
@@ -38,27 +37,9 @@ The EventGateway SDK will then be attached to window e.g. and you can access it 
 
 ## Application Usage
 
-When using in your application logic, you'll usually interact with the `invoke` and `emit` APIs.
-
-Use the `invoke` command to synchronously invoke backend function by name. This is similar to an RPC call.
-
-```javascript
-// Construct your client
-const SDK = require('@serverless/event-gateway-sdk');
-const eventGateway = new SDK({
-  url: 'http://myeventgateway.io',
-  space: 'prod'
-})
-
-// Call your function
-eventGateway.invoke({
-  functionId: 'users.getUsers',
-  data: { 'limit': 100 }
-}).then((resp) => resp.json())
-  .then((users) => console.log(users))
-```
-
-Use the `emit` command to emit a named event and payload to your Event Gateway. The event will be received by any function that is subscribed to your event.
+When using in your application logic, you'll usually interact with the `emit` APIs. Use the `emit`
+command to emit a named event and payload to your Event Gateway. The event will be received by any
+function that is subscribed to your event.
 
 ```javascript
 // Construct your client
@@ -74,7 +55,6 @@ eventGateway.emit({
   data: { 'userId': 1234 }
 })
 ```
-
 
 ## API Reference
 
@@ -247,28 +227,6 @@ eventGateway.emit({
   event: 'user.completedTutorial'
   data: { 'userId': 1234 }
 })
-```
-
-#### Invoke
-
-**Parameters**
-
-Object:
-
-- `functionId` - `string` - Name of function to invoke
-- `data` - `object` or `string` - Payload to include with invocation. If `dataType` is `"application/json"`, data will be stringified before sending.
-- `dataType` - `string` - Data type of payload. Default is `"application/json"`
-
-**Returns**
-
-`fetch` response object.
-
-```js
-eventGateway.invoke({
-  functionId: 'users.getUsers'
-  data: { 'limit': 100 }
-}).then((resp) => resp.json())
-  .then((users) => console.log(users))
 ```
 
 ## Contribute
