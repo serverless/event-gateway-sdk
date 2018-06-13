@@ -333,12 +333,13 @@ CloudEvents object
 ```js
 // Emit your event
 eventGateway.emit({
+  eventID: '1',
   eventType: 'user.created',
-  eventTypeVersion: '1.0',
+  cloudEventsVersion: '0.1',
   source: '/services/users',
   contentType: 'application/json',
   data: {
-    userID: 123
+    userID: 'foo'
   }
 })
 ```
