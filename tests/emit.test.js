@@ -34,7 +34,7 @@ const subscriptionConfig = {
 let eventGateway
 let eventGatewayProcessId
 
-beforeAll(done =>
+beforeAll(() =>
   eventGatewayProcess
     .spawn({
       configPort: 4013,
@@ -46,11 +46,16 @@ beforeAll(done =>
         url: `http://localhost:${processInfo.apiPort}`,
         configurationUrl: `http://localhost:${processInfo.configPort}`
       })
-      server.listen(serverPort, err => {
-        if (!err) {
-          done()
-        }
-      })
+      server.listen(serverPort)
+    })
+    .then(() => {
+      return eventGateway.createEventType(eventType)
+    })
+    .then(() => {
+      return eventGateway.registerFunction(functionConfig)
+    })
+    .then(() => {
+      return eventGateway.subscribe(subscriptionConfig)
     }))
 
 afterAll(done => {
@@ -60,28 +65,7 @@ afterAll(done => {
   })
 })
 
-test('should create event type', () => {
-  return eventGateway.createEventType(eventType).then(response => {
-    expect(response).toEqual(eventType)
-  })
-})
-
-test('should add a function to the gateway', () => {
-  expect.assertions(1)
-  return eventGateway.registerFunction(functionConfig).then(response => {
-    expect(response).toEqual(functionConfig)
-  })
-})
-
-test('should add a subscription to the gateway', () => {
-  expect.assertions(1)
-  return eventGateway.subscribe(subscriptionConfig).then(response => {
-    expect(response).toMatchSnapshot()
-  })
-})
-
 test('should invoke the subscribed function when emitting an event', () => {
-  expect.assertions(2)
   return eventGateway
     .emit({
       event: 'pageVisited',
@@ -90,21 +74,6 @@ test('should invoke the subscribed function when emitting an event', () => {
     .then(delay(300))
     .then(response => {
       expect(requests).toHaveLength(1)
-      expect(response.status).toEqual(202)
-    })
-})
-
-test('should invoke the subscribed function with an event with dataType text/plain', () => {
-  expect.assertions(2)
-  return eventGateway
-    .emit({
-      event: 'pageVisited',
-      data: 'This is a test text.',
-      dataType: 'text/plain'
-    })
-    .then(delay(300))
-    .then(response => {
-      expect(requests).toHaveLength(2)
       expect(response.status).toEqual(202)
     })
 })
