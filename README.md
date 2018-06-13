@@ -10,14 +10,20 @@ JavaScript library for interacting with the [Event Gateway](https://github.com/s
 - [Usage](#usage)
 - [API Reference](#api-reference)
   - [Constructor](#constructor)
-  - [List Functions](#list-functions)
-  - [Register Function](#register-function)
-  - [Update Function](#update-function)
-  - [Delete Function](#delete-function)
-  - [List Subscriptions](#list-subscriptions)
-  - [Subscribe](#subscribe)
-  - [Unsubscribe](#unsubscribe)
-  - [Emit](#emit)
+  - [Configuration API](#configuration-api)
+      - [List Functions](#list-functions)
+      - [Register Function](#register-function)
+      - [Update Function](#update-function)
+      - [Delete Function](#delete-function)
+      - [List Event Types](#list-event-types)
+      - [Create Event Type](#create-event-type)
+      - [Update Event Type](#update-event-type)
+      - [Delete Event Type](#delete-event-type)
+      - [List Subscriptions](#list-subscriptions)
+      - [Subscribe](#subscribe)
+      - [Unsubscribe](#unsubscribe)
+  - [Events API](#events-api)
+      - [Emit](#emit)
 
 ## Installation
 
@@ -51,8 +57,13 @@ const eventGateway = new SDK({
 
 // Emit your event
 eventGateway.emit({
-  event: 'user.completedTutorial'
-  data: { 'userId': 1234 }
+  eventType: 'user.created',
+  eventTypeVersion: '1.0',
+  source: '/services/users',
+  contentType: 'application/json',
+  data: {
+    userID: 123
+  }
 })
 ```
 
@@ -70,6 +81,8 @@ Object:
 - `accessKey` - `string` - optional, access key for hosted Event Gateway. Access key is required for using Configuration API methods on hosted Event Gateway
 - `fetchClient` - `object` - optional, `fetch` client
 
+**Example**
+
 ```js
 const SDK = require('@serverless/event-gateway-sdk');
 const eventGateway = new SDK({
@@ -79,7 +92,7 @@ const eventGateway = new SDK({
 })
 ```
 
-### Configuration APIs
+### Configuration API
 
 #### List Functions
 
@@ -87,9 +100,13 @@ const eventGateway = new SDK({
 
 Promise object resolving to array of function objects
 
+**Example**
+
 ```js
 eventGateway.listFunctions()
 ```
+
+For more details see Event Gateway [List Functions docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#get-functions).
 
 #### Register Function
 
@@ -101,11 +118,13 @@ Object:
 - `type` - `string` - type of function provider
 - `provider` - `object` - provider spec
 
-For more details see Event Gateway [Register Functions docs](https://github.com/serverless/event-gateway#register-function).
+For more details see Event Gateway [Register Function docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#register-function).
 
 **Returns**
 
 Promise object resolving to Function object
+
+**Example**
 
 ```js
 eventGateway.registerFunction({
@@ -128,11 +147,13 @@ Object:
 - `type` - `string` - type of function provider
 - `provider` - `object` - provider spec
 
-For more details see Event Gateway [Update Functions docs](https://github.com/serverless/event-gateway#update-function).
+For more details see Event Gateway [Update Function docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#update-function).
 
 **Returns**
 
 Promise object resolving to Function object
+
+**Example**
 
 ```js
 eventGateway.updateFunction({
@@ -153,15 +174,98 @@ Object:
 
 - `functionId` - `string` - function ID
 
+**Example**
+
 ```js
 eventGateway.deleteFunction({ functionId: 'sendEmail' })
 ```
+
+For more details see Event Gateway [Delete Function docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-function).
+
+#### List Event Types
+
+**Returns**
+
+Promise object resolving to array of event types objects
+
+**Example**
+
+```js
+eventGateway.listEventTypes()
+```
+
+For more details see Event Gateway [List Event Types docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#get-event-types).
+
+#### Create Event Type
+
+**Parameters**
+
+Object:
+
+- `name` - `string` - event type name
+- `authorizerId` - `string` - optional, ID of event type authorizer
+
+For more details see Event Gateway [Create Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#create-event-type).
+
+**Returns**
+
+Promise object resolving to Event Type object
+
+**Example**
+
+```js
+eventGateway.createEventType({
+  name: 'user.created'
+})
+```
+
+#### Update Event Type
+
+**Parameters**
+
+Object:
+
+- `name` - `string` - event type name
+- `authorizerId` - `string` - optional, ID of event type authorizer
+
+For more details see Event Gateway [Update Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#update-event-type).
+
+**Returns**
+
+Promise object resolving to Event Type object
+
+**Example**
+
+```js
+eventGateway.updateEventType({
+  name: 'user.created',
+  authorizerId: 'userAuthorizer'
+})
+```
+
+#### Delete Event Type
+
+**Parameters**
+
+Object:
+
+- `name` - `string` - event type name
+
+**Example**
+
+```js
+eventGateway.deleteEventType({ name: 'user.created' })
+```
+
+For more details see Event Gateway [Delete Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-event-type).
 
 #### List Subscriptions
 
 **Returns**
 
 Promise object resolving to array of subscription objects
+
+**Example**
 
 ```js
 eventGateway.listSubscriptions()
@@ -173,17 +277,19 @@ eventGateway.listSubscriptions()
 
 Object:
 
-- `event` - `string` - event type
+- `type` - `string` - subscription type, `async` or `sync`
+- `eventType` - `string` - event type
 - `functionId` - `string` - function ID
 - `path` - `string` - optional, subscription path, default: `/`
-- `method` - `string` - required for HTTP subscription, HTTP method
-- `cors` - `object` - optional for HTTP subscriptions, CORS configuration
+- `method` - `string` - optional, HTTP method, default: `POST`
 
-For more details see Event Gateway [Create Subscription docs](https://github.com/serverless/event-gateway#create-subscription).
+For more details see Event Gateway [Create Subscription docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#create-subscription).
 
 **Returns**
 
 Promise object resolving to Subscription object
+
+**Example**
 
 ```js
 eventGateway.subscribe({
@@ -200,11 +306,15 @@ Object:
 
 - `subscriptionId` - `string` - subscription ID
 
+**Example**
+
 ```js
 eventGateway.unsubscribe({
-  subscriptionId: 'user.created-sendEmail'
+  subscriptionId: 'dXNlci5jcmVhdGVkLXNlbmRFbWFpbA'
 })
 ```
+
+For more details see Event Gateway [Delete Subscription docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-subscription).
 
 ### Events API
 
@@ -212,20 +322,24 @@ eventGateway.unsubscribe({
 
 **Parameters**
 
-Object:
-
-- `event` - `string` - Name of event to emit
-- `data` - `object` or `string` - Payload to include with event. If `dataType` is `"application/json"`, data will be stringified before sending.
-- `dataType` - `string` - Data type of payload. Default is `"application/json"`
+CloudEvents object
 
 **Returns**
 
 `fetch` response object.
 
+**Example**
+
 ```js
+// Emit your event
 eventGateway.emit({
-  event: 'user.completedTutorial'
-  data: { 'userId': 1234 }
+  eventType: 'user.created',
+  eventTypeVersion: '1.0',
+  source: '/services/users',
+  contentType: 'application/json',
+  data: {
+    userID: 123
+  }
 })
 ```
 
