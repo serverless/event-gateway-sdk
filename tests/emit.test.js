@@ -11,6 +11,11 @@ const server = http.createServer((request, response) => {
   response.end(JSON.stringify({ message: 'success' }))
 })
 
+const eventType = {
+  space: 'default',
+  name: 'pageVisited'
+}
+
 const functionConfig = {
   space: 'default',
   functionId: 'test-emit',
@@ -21,8 +26,9 @@ const functionConfig = {
 }
 
 const subscriptionConfig = {
+  type: 'async',
   functionId: 'test-emit',
-  event: 'pageVisited'
+  eventType: 'pageVisited'
 }
 
 let eventGateway
@@ -51,6 +57,12 @@ afterAll(done => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)
   server.close(() => {
     done()
+  })
+})
+
+test('should create event type', () => {
+  return eventGateway.createEventType(eventType).then(response => {
+    expect(response).toEqual(eventType)
   })
 })
 

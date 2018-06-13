@@ -2,14 +2,16 @@
 
 exports[`should add a subscription to the gateway 1`] = `
 Object {
-  "event": "pageVisited",
-  "functionId": "subscription-test-function",
+  "eventType": "pageVisited",
+  "functionId": "hello",
+  "method": "POST",
   "path": "/",
   "space": "testspace",
-  "subscriptionId": "pageVisited,subscription-test-function,%2F",
+  "subscriptionId": "YXN5bmMscGFnZVZpc2l0ZWQsaGVsbG8sJTJGLFBPU1Q",
+  "type": "async",
 }
 `;
 
-exports[`should fail to a add a subscription to a none existing function 1`] = `[Error: Failed to subscribe the event pageVisited to the function none-exiting-function due the error: Function "none-exiting-function" not found.]`;
+exports[`should fail to a add a subscription to a none existing function 1`] = `[Error: Failed to subscribe the event undefined to the function none-exiting-function due the error: Subscription doesn't validate. Validation error: Key: 'Subscription.Type' Error:Field validation for 'Type' failed on the 'required' tag]`;
 
-exports[`should fail to a remove a none-existing subscription 1`] = `[Error: Failed to unsubscribe the subscription pageVisited,subscription-test-function,%2F due the error: Subscription "pageVisited,subscription-test-function,%2F" not found.]`;
+exports[`should fail to a remove a none-existing subscription 1`] = `[Error: Failed to unsubscribe the subscription xxx due the error: Subscription "xxx" not found.]`;

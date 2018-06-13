@@ -2,10 +2,12 @@
 
 exports[`should add a subscription to the gateway 1`] = `
 Object {
-  "event": "pageVisited",
+  "eventType": "pageVisited",
   "functionId": "test-emit",
+  "method": "POST",
   "path": "/",
   "space": "default",
-  "subscriptionId": "pageVisited,test-emit,%2F",
+  "subscriptionId": "YXN5bmMscGFnZVZpc2l0ZWQsdGVzdC1lbWl0LCUyRixQT1NU",
+  "type": "async",
 }
 `;

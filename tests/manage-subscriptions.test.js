@@ -1,9 +1,14 @@
 const SDK = require('../lib/index')
 const eventGatewayProcess = require('./utils/eventGatewayProcess')
 
+const eventType = {
+  space: 'testspace',
+  name: 'pageVisited'
+}
+
 const functionConfig = {
   space: 'testspace',
-  functionId: 'subscription-test-function',
+  functionId: 'hello',
   type: 'awslambda',
   provider: {
     arn: 'arn::::',
@@ -12,8 +17,9 @@ const functionConfig = {
 }
 const subscriptionConfig = {
   space: 'testspace',
-  functionId: 'subscription-test-function',
-  event: 'pageVisited'
+  type: 'async',
+  eventType: 'pageVisited',
+  functionId: 'hello'
 }
 
 let eventGateway
@@ -38,6 +44,12 @@ afterAll(() => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)
 })
 
+test('should create event type', () => {
+  return eventGateway.createEventType(eventType).then(response => {
+    expect(response).toEqual(eventType)
+  })
+})
+
 test('should add a function to the gateway', () => {
   expect.assertions(1)
   return eventGateway.registerFunction(functionConfig).then(response => {
@@ -54,14 +66,14 @@ test('should add a subscription to the gateway', () => {
 
 test('should remove the added subscription', () => {
   expect.assertions(1)
-  return eventGateway.unsubscribe({ subscriptionId: 'pageVisited,subscription-test-function,%2F' }).then(response => {
+  return eventGateway.unsubscribe({ subscriptionId: 'YXN5bmMscGFnZVZpc2l0ZWQsaGVsbG8sJTJGLFBPU1Q' }).then(response => {
     expect(response).toBeUndefined()
   })
 })
 
 test('should fail to a add a subscription to a none existing function', () => {
   expect.assertions(1)
-  const brokenConfig = { functionId: 'none-exiting-function', event: 'pageVisited' }
+  const brokenConfig = { functionId: 'none-exiting-function', eventType: 'pageVisited' }
 
   return eventGateway.subscribe(brokenConfig).catch(err => {
     expect(err).toMatchSnapshot()
@@ -70,7 +82,7 @@ test('should fail to a add a subscription to a none existing function', () => {
 
 test('should fail to a remove a none-existing subscription', () => {
   expect.assertions(1)
-  return eventGateway.unsubscribe({ subscriptionId: 'pageVisited,subscription-test-function,%2F' }).catch(err => {
+  return eventGateway.unsubscribe({ subscriptionId: 'xxx' }).catch(err => {
     expect(err).toMatchSnapshot()
   })
 })

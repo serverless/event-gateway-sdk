@@ -1,6 +1,11 @@
 const SDK = require('../lib/index')
 const eventGatewayProcess = require('./utils/eventGatewayProcess')
 
+const eventType = {
+  space: 'testspace',
+  name: 'pageVisited'
+}
+
 const functionConfig = {
   space: 'testspace',
   functionId: 'hello',
@@ -13,9 +18,11 @@ const functionConfig = {
 
 const subscriptionConfig = {
   space: 'testspace',
-  subscriptionId: 'pageVisited,hello,%2F',
+  subscriptionId: 'YXN5bmMscGFnZVZpc2l0ZWQsaGVsbG8sJTJGLFBPU1Q',
+  type: 'async',
   functionId: 'hello',
-  event: 'pageVisited',
+  eventType: 'pageVisited',
+  method: 'POST',
   path: '/'
 }
 
@@ -41,6 +48,12 @@ beforeAll(() =>
 
 afterAll(() => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)
+})
+
+test('should create event type', () => {
+  return eventGateway.createEventType(eventType).then(response => {
+    expect(response).toEqual(eventType)
+  })
 })
 
 test('should add a function to the gateway', () => {
