@@ -13,7 +13,7 @@ const server = http.createServer((request, response) => {
 
 const eventType = {
   space: 'default',
-  name: 'pageVisited'
+  name: 'test.event'
 }
 
 const functionConfig = {
@@ -28,7 +28,7 @@ const functionConfig = {
 const subscriptionConfig = {
   type: 'async',
   functionId: 'test-emit',
-  eventType: 'pageVisited'
+  eventType: 'test.event'
 }
 
 let eventGateway
@@ -68,8 +68,14 @@ afterAll(done => {
 test('should invoke the subscribed function when emitting an event', () => {
   return eventGateway
     .emit({
-      event: 'pageVisited',
-      data: { userId: '1234' }
+      cloudEventsVersion: '0.1',
+      eventType: 'test.event',
+      eventID: '1',
+      source: '/services/tests',
+      contentType: 'application/json',
+      data: {
+        foo: 'bar'
+      }
     })
     .then(delay(300))
     .then(response => {
