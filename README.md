@@ -11,19 +11,27 @@ JavaScript library for interacting with the [Event Gateway](https://github.com/s
 - [API Reference](#api-reference)
   - [Constructor](#constructor)
   - [Configuration API](#configuration-api)
-      - [List Functions](#list-functions)
-      - [Register Function](#register-function)
-      - [Update Function](#update-function)
-      - [Delete Function](#delete-function)
-      - [List Event Types](#list-event-types)
-      - [Create Event Type](#create-event-type)
-      - [Update Event Type](#update-event-type)
-      - [Delete Event Type](#delete-event-type)
-      - [List Subscriptions](#list-subscriptions)
-      - [Subscribe](#subscribe)
-      - [Unsubscribe](#unsubscribe)
+    - Functions:
+      - [`listFunctions`](#listfunctions)
+      - [`registerFunction`](#registerfunction)
+      - [`updateFunction`](#updatefunction)
+      - [`deleteFunction`](#deletefunction)
+    - Event Types:
+      - [`listEventTypes`](#listeventtypes)
+      - [`createEventType`](#createeventtype)
+      - [`updateEventType`](#updateeventtype)
+      - [`deleteEventType`](#deleteeventtype)
+    - Subscriptions:
+      - [`listSubscriptions`](#listsubscriptions)
+      - [`subscribe`](#subscribe)
+      - [`unsubscribe`](#unsubscribe)
+    - CORS:
+      - [`listCORS`](#listcors)
+      - [`createCORS`](#createcors)
+      - [`updateCORS`](#updatecors)
+      - [`deleteCORS`](#deletecors)
   - [Events API](#events-api)
-      - [Emit](#emit)
+      - [`emit`](#emit)
 
 ## Installation
 
@@ -94,7 +102,7 @@ const eventGateway = new SDK({
 
 ### Configuration API
 
-#### List Functions
+#### `listFunctions`
 
 **Returns**
 
@@ -108,7 +116,9 @@ eventGateway.listFunctions()
 
 For more details see Event Gateway [List Functions docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#get-functions).
 
-#### Register Function
+---
+
+#### `registerFunction`
 
 **Parameters**
 
@@ -137,7 +147,9 @@ eventGateway.registerFunction({
 })
 ```
 
-#### Update Function
+---
+
+#### `updateFunction`
 
 **Parameters**
 
@@ -166,7 +178,9 @@ eventGateway.updateFunction({
 })
 ```
 
-#### Delete Function
+---
+
+#### `deleteFunction`
 
 **Parameters**
 
@@ -182,7 +196,9 @@ eventGateway.deleteFunction({ functionId: 'sendEmail' })
 
 For more details see Event Gateway [Delete Function docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-function).
 
-#### List Event Types
+---
+
+#### `listEventTypes`
 
 **Returns**
 
@@ -196,7 +212,9 @@ eventGateway.listEventTypes()
 
 For more details see Event Gateway [List Event Types docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#get-event-types).
 
-#### Create Event Type
+---
+
+#### `createEventType`
 
 **Parameters**
 
@@ -219,7 +237,9 @@ eventGateway.createEventType({
 })
 ```
 
-#### Update Event Type
+---
+
+#### `updateEventType`
 
 **Parameters**
 
@@ -243,7 +263,9 @@ eventGateway.updateEventType({
 })
 ```
 
-#### Delete Event Type
+---
+
+#### `deleteEventType`
 
 **Parameters**
 
@@ -259,7 +281,9 @@ eventGateway.deleteEventType({ name: 'user.created' })
 
 For more details see Event Gateway [Delete Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-event-type).
 
-#### List Subscriptions
+---
+
+#### `listSubscriptions`
 
 **Returns**
 
@@ -271,7 +295,9 @@ Promise object resolving to array of subscription objects
 eventGateway.listSubscriptions()
 ```
 
-#### Subscribe
+---
+
+#### `subscribe`
 
 **Parameters**
 
@@ -298,7 +324,9 @@ eventGateway.subscribe({
 })
 ```
 
-#### Unsubscribe
+---
+
+#### `unsubscribe`
 
 **Parameters**
 
@@ -316,9 +344,105 @@ eventGateway.unsubscribe({
 
 For more details see Event Gateway [Delete Subscription docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-subscription).
 
+---
+
+#### `listCORS`
+
+**Returns**
+
+Promise object resolving to array of CORS configuration objects
+
+**Example**
+
+```js
+eventGateway.listCORS()
+```
+
+For more details see Event Gateway [List CORS Configurations docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-cors-configurations).
+
+---
+
+#### `createCORS`
+
+**Parameters**
+
+Object:
+
+- `method` - `string` - endpoint method
+- `path` - `string` - endpoint path
+- `allowedOrigins` - `array` of `string` - list of allowed origins. An origin may contain a wildcard (\*) to replace 0 or more characters (i.e.: http://\*.domain.com), default: `*`
+- `allowedMethods` - `array` of `string` - list of allowed methods, default: `HEAD`, `GET`, `POST`
+- `allowedHeaders` - `array` of `string` - list of allowed headers, default: `Origin`, `Accept`, `Content-Type`
+- `allowCredentials` - `bool` - allow credentials, default: false
+
+For more details see Event Gateway [Create CORS Configuration docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#create-cors-configuration).
+
+**Returns**
+
+Promise object resolving to CORS configuration object
+
+**Example**
+
+```js
+eventGateway.createCORS({
+  method: 'GET',
+  path: '/hello',
+  allowedOrigins: ['http://example.com']
+})
+```
+
+---
+
+#### `updateCORS`
+
+**Parameters**
+
+Object:
+
+- `method` - `string` - endpoint method
+- `path` - `string` - endpoint path
+- `allowedOrigins` - `array` of `string` - list of allowed origins. An origin may contain a wildcard (\*) to replace 0 or more characters (i.e.: http://\*.domain.com), default: `*`
+- `allowedMethods` - `array` of `string` - list of allowed methods, default: `HEAD`, `GET`, `POST`
+- `allowedHeaders` - `array` of `string` - list of allowed headers, default: `Origin`, `Accept`, `Content-Type`
+- `allowCredentials` - `bool` - allow credentials, default: false
+
+For more details see Event Gateway [Update CORS Configuration docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#update-cors-configuration).
+
+**Returns**
+
+Promise object resolving to CORS configuration object
+
+**Example**
+
+```js
+eventGateway.updateCORS({
+  method: 'GET',
+  path: '/hello',
+  allowedOrigins: ['http://example.com']
+})
+```
+
+---
+
+#### `deleteCORS`
+
+**Parameters**
+
+Object:
+
+- `corsID` - `string` - CORS configuration ID
+
+**Example**
+
+```js
+eventGateway.deleteCORS({ corsId: 'GET%2Fhello' })
+```
+
+For more details see Event Gateway [Delete CORS Configuration docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-cors-configuration).
+
 ### Events API
 
-#### Emit
+#### `emit`
 
 **Parameters**
 
