@@ -23,7 +23,7 @@ afterAll(() => {
   eventGatewayProcess.shutDown(eventGatewayProcessId)
 })
 
-const registerFunctionConfig = {
+const createFunctionConfig = {
   functionId: 'test',
   type: 'awslambda',
   provider: {
@@ -43,7 +43,7 @@ const functionConfig = {
 }
 
 test('should add a function to the gateway', () => {
-  return eventGateway.registerFunction(registerFunctionConfig).then(response => {
+  return eventGateway.createFunction(createFunctionConfig).then(response => {
     expect(response).toEqual(functionConfig)
   })
 })
@@ -55,9 +55,9 @@ test('should return list of functions', () => {
 })
 
 test('should fail to re-add the same function', () => {
-  return eventGateway.registerFunction(functionConfig).catch(err => {
+  return eventGateway.createFunction(functionConfig).catch(err => {
     expect(err).toEqual(
-      new Error('Failed to register the function test due the error: Function "test" already registered.')
+      new Error('Failed to create the function test due the error: Function "test" already registered.')
     )
   })
 })

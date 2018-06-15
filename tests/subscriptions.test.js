@@ -22,7 +22,7 @@ beforeAll(() =>
       return eventGateway.createEventType(eventType)
     })
     .then(() => {
-      return eventGateway.registerFunction(functionConfig)
+      return eventGateway.createFunction(functionConfig)
     }))
 
 afterAll(() => {

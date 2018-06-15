@@ -13,7 +13,7 @@ JavaScript library for interacting with the [Event Gateway](https://github.com/s
   - [Configuration API](#configuration-api)
     - Functions:
       - [`listFunctions`](#listfunctions)
-      - [`registerFunction`](#registerfunction)
+      - [`createFunction`](#createfunction)
       - [`updateFunction`](#updatefunction)
       - [`deleteFunction`](#deletefunction)
     - Event Types:
@@ -118,7 +118,7 @@ For more details see Event Gateway [List Functions docs](https://github.com/serv
 
 ---
 
-#### `registerFunction`
+#### `createFunction`
 
 **Parameters**
 
@@ -137,7 +137,7 @@ Promise object resolving to Function object
 **Example**
 
 ```js
-eventGateway.registerFunction({
+eventGateway.createFunction({
   functionId: 'sendEmail',
   type:'awslambda',
   provider: {

@@ -52,7 +52,7 @@ beforeAll(() =>
       return eventGateway.createEventType(eventType)
     })
     .then(() => {
-      return eventGateway.registerFunction(functionConfig)
+      return eventGateway.createFunction(functionConfig)
     })
     .then(() => {
       return eventGateway.subscribe(subscriptionConfig)
