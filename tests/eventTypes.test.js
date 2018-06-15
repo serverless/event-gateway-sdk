@@ -38,13 +38,13 @@ test('should add an event type to the gateway', () => {
   })
 })
 
-test('should return list of functions', () => {
+test('should return list of event types', () => {
   return eventGateway.listEventTypes().then(response => {
     expect(response).toEqual([eventTypeConfig])
   })
 })
 
-test('should fail to re-add the same function', () => {
+test('should fail to re-add the same event type', () => {
   return eventGateway.createEventType(createEventTypeConfig).catch(err => {
     expect(err).toEqual(
       new Error('Failed to create test.event event type due the error: Event Type "test.event" already exists.')
@@ -52,13 +52,13 @@ test('should fail to re-add the same function', () => {
   })
 })
 
-test('should remove the added function', () => {
+test('should remove the added event type', () => {
   return eventGateway.deleteEventType({ name: 'test.event' }).then(response => {
     expect(response).toBeUndefined()
   })
 })
 
-test('should fail to remove a non-existing function', () => {
+test('should fail to remove a non-existing event type', () => {
   return eventGateway.deleteEventType({ name: 'non.existing' }).catch(err => {
     expect(err).toEqual(
       new Error('Failed to delete non.existing event type due the error: Event Type "non.existing" not found.')
