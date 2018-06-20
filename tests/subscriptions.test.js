@@ -47,13 +47,13 @@ test('should remove the added subscription', () => {
   })
 })
 
-test('should fail to a add a subscription to a none existing function', () => {
-  const brokenConfig = { functionId: 'none-exiting-function', eventType: 'pageVisited' }
+test('should fail to a add a subscription to a non-existing function', () => {
+  const brokenConfig = { functionId: 'non-exiting-function', eventType: 'pageVisited' }
 
   return eventGateway.subscribe(brokenConfig).catch(err => {
     expect(err).toEqual(
       new Error(
-        `Failed to subscribe the event undefined to the function none-exiting-function due the error: ` +
+        `Failed to subscribe the event pageVisited to the function non-exiting-function due the error: ` +
           `Subscription doesn't validate. Validation error: Key: 'Subscription.Type' Error:Field validation` +
           ` for 'Type' failed on the 'required' tag`
       )
