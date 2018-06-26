@@ -399,6 +399,7 @@ eventGateway.createCORS({
 
 Object:
 
+- `corsId` - `string` - CORS configuration ID.  Combiones path and method, like `GET%2users/current`
 - `method` - `string` - endpoint method
 - `path` - `string` - endpoint path
 - `allowedOrigins` - `array` of `string` - list of allowed origins. An origin may contain a wildcard (\*) to replace 0 or more characters (i.e.: http://\*.domain.com), default: `*`
