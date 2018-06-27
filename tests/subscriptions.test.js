@@ -41,6 +41,12 @@ test('should return list of subscriptions', () => {
   })
 })
 
+test('should return filtered list of subscriptions', () => {
+  return eventGateway.listSubscriptions({ 'metadata.foo': 'bar' }).then(response => {
+    expect(response).toEqual([])
+  })
+})
+
 test('should remove the added subscription', () => {
   return eventGateway.unsubscribe({ subscriptionId: 'YXN5bmMsdGVzdC5ldmVudCx0ZXN0LCUyRixQT1NU' }).then(response => {
     expect(response).toBeUndefined()

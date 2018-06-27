@@ -44,6 +44,12 @@ test('should return list of event types', () => {
   })
 })
 
+test('should return filtered list of event types', () => {
+  return eventGateway.listEventTypes({ 'metadata.foo': 'bar' }).then(response => {
+    expect(response).toEqual([])
+  })
+})
+
 test('should fail to re-add the same event type', () => {
   return eventGateway.createEventType(createEventTypeConfig).catch(err => {
     expect(err).toEqual(

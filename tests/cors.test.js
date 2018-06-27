@@ -52,6 +52,12 @@ test('should return list of CORS configurations', () => {
   })
 })
 
+test('should return filtered list of CORS configurations', () => {
+  return eventGateway.listCORS({ 'metadata.foo': 'bar' }).then(response => {
+    expect(response).toEqual([])
+  })
+})
+
 test('should fail to re-add the same CORS configuration', () => {
   return eventGateway.createCORS(createCORSConfig).catch(err => {
     expect(err).toEqual(
