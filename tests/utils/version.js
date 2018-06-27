@@ -1,1 +1,1 @@
-module.exports.EventGatewayVersion = '0.8.2'
+module.exports.EventGatewayVersion = '0.9.0'

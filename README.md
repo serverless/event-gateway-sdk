@@ -104,6 +104,12 @@ const eventGateway = new SDK({
 
 #### `listFunctions`
 
+**Parameters**
+
+Optional, `object` with filters
+
+For more details see Event Gateway [List Functions docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-functions).
+
 **Returns**
 
 Promise object resolving to array of function objects
@@ -113,8 +119,6 @@ Promise object resolving to array of function objects
 ```js
 eventGateway.listFunctions()
 ```
-
-For more details see Event Gateway [List Functions docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#get-functions).
 
 ---
 
@@ -200,6 +204,12 @@ For more details see Event Gateway [Delete Function docs](https://github.com/ser
 
 #### `listEventTypes`
 
+**Parameters**
+
+Optional, `object` with filters
+
+For more details see Event Gateway [List Event Types docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-event-types).
+
 **Returns**
 
 Promise object resolving to array of event types objects
@@ -209,8 +219,6 @@ Promise object resolving to array of event types objects
 ```js
 eventGateway.listEventTypes()
 ```
-
-For more details see Event Gateway [List Event Types docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#get-event-types).
 
 ---
 
@@ -285,6 +293,12 @@ For more details see Event Gateway [Delete Event Type docs](https://github.com/s
 
 #### `listSubscriptions`
 
+**Parameters**
+
+Optional, `object` with filters
+
+For more details see Event Gateway [List Subscriptions docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-subscriptions).
+
 **Returns**
 
 Promise object resolving to array of subscription objects
@@ -348,6 +362,12 @@ For more details see Event Gateway [Delete Subscription docs](https://github.com
 
 #### `listCORS`
 
+**Parameters**
+
+Optional, `object` with filters
+
+For more details see Event Gateway [List CORS Configurations docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-cors-configurations).
+
 **Returns**
 
 Promise object resolving to array of CORS configuration objects
@@ -357,8 +377,6 @@ Promise object resolving to array of CORS configuration objects
 ```js
 eventGateway.listCORS()
 ```
-
-For more details see Event Gateway [List CORS Configurations docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-cors-configurations).
 
 ---
 
@@ -399,7 +417,7 @@ eventGateway.createCORS({
 
 Object:
 
-- `corsId` - `string` - CORS configuration ID.  Combiones path and method, like `GET%2users/current`
+- `corsId` - `string` - CORS configuration ID
 - `method` - `string` - endpoint method
 - `path` - `string` - endpoint path
 - `allowedOrigins` - `array` of `string` - list of allowed origins. An origin may contain a wildcard (\*) to replace 0 or more characters (i.e.: http://\*.domain.com), default: `*`

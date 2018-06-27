@@ -54,6 +54,12 @@ test('should return list of functions', () => {
   })
 })
 
+test('should return filtered list of functions', () => {
+  return eventGateway.listFunctions({ 'metadata.foo': 'bar' }).then(response => {
+    expect(response).toEqual([])
+  })
+})
+
 test('should fail to re-add the same function', () => {
   return eventGateway.createFunction(functionConfig).catch(err => {
     expect(err).toEqual(
