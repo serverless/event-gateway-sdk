@@ -1,7 +1,6 @@
 const http = require('http')
 const SDK = require('../lib/index')
 const eventGatewayProcess = require('./utils/eventGatewayProcess')
-const delay = require('./utils/delay')
 
 let eventGateway
 let eventGatewayProcessId
