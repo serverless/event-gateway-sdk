@@ -52,16 +52,20 @@ const eventGateway = new SDK({
 })
 
 // Emit your event
-eventGateway.emit({
-  eventID: '1',
-  eventType: 'user.created',
-  cloudEventsVersion: '0.1',
-  source: '/services/users',
-  contentType: 'application/json',
-  data: {
-    userID: 'foo'
-  }
-})
+eventGateway
+  .emit({
+    eventID: '1',
+    eventType: 'user.created',
+    cloudEventsVersion: '0.1',
+    source: '/services/users',
+    contentType: 'application/json',
+    data: {
+      userID: 'foo'
+    }
+  })
+  // If a sync subscription, then do something with the response.
+  .then(res => res.json())
+  .then(json => console.log(json))
 ```
 
 The method returns a [`fetch`](https://github.com/bitinn/node-fetch) response object. If your event has a `sync` subscription attached, the `fetch` response will have the status code and body from the subscription. If not, the response will return a `202 Accepted` status code with an empty body.
