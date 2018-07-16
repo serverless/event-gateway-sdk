@@ -48,7 +48,7 @@ Use the `emit` command to emit a named event and payload to your Event Gateway. 
 // Construct your client
 const SDK = require('@serverless/event-gateway-sdk');
 const eventGateway = new SDK({
-  url: 'http://mytenant-myapp.slsgateway.com',
+  url: 'https://mytenant-myapp.slsgateway.com',
 })
 
 // Emit your event
