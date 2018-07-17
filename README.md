@@ -1,37 +1,28 @@
 # Event Gateway JavaScript SDK
 
-JavaScript library for interacting with the [Event Gateway](https://github.com/serverless/event-gateway).
+Javascript library for interacting with the [Event Gateway](https://github.com/serverless/event-gateway).
 
 [![Build Status](https://travis-ci.org/serverless/event-gateway-sdk.svg?branch=master)](https://travis-ci.org/serverless/event-gateway-sdk)
 
 ## Contents
 
+- [Background](#background)
+- [Target Audience](#target-audience)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Constructor](#constructor)
 - [API Reference](#api-reference)
-  - [Constructor](#constructor)
-  - [Configuration API](#configuration-api)
-    - Functions:
-      - [`listFunctions`](#listfunctions)
-      - [`createFunction`](#createfunction)
-      - [`updateFunction`](#updatefunction)
-      - [`deleteFunction`](#deletefunction)
-    - Event Types:
-      - [`listEventTypes`](#listeventtypes)
-      - [`createEventType`](#createeventtype)
-      - [`updateEventType`](#updateeventtype)
-      - [`deleteEventType`](#deleteeventtype)
-    - Subscriptions:
-      - [`listSubscriptions`](#listsubscriptions)
-      - [`subscribe`](#subscribe)
-      - [`unsubscribe`](#unsubscribe)
-    - CORS:
-      - [`listCORS`](#listcors)
-      - [`createCORS`](#createcors)
-      - [`updateCORS`](#updatecors)
-      - [`deleteCORS`](#deletecors)
-  - [Events API](#events-api)
-      - [`emit`](#emit)
+- [Contributing](#contributing)
+
+## Background
+
+This is the Javascript SDK for interacting with the [Event Gateway](https://github.com/serverless/event-gateway), the hub for connecting events to serverless functions. It is designed to work both on the server with Node.js and in the browser.
+
+## Target Audience
+
+This SDK can be used both to *configure* the Event Gateway, by registering functions and subscriptions, and to *interact* with the Event Gateway, by emitting events from your application to be sent to subscribed functions.
+
+This README is focused on the latter use case -- interacting with the Event Gateway by emitting events. If you're interested in using the Event Gateway SDK to configure the Event Gateway, please check the [API reference](./docs/api.md) for the available methods, as well as the main [Event Gateway repository](https://github.com/serverless/event-gateway). You may also be interested in using the [Event Gateway plugin](https://github.com/serverless/serverless-event-gateway-plugin) for the [Serverless Framework](https://github.com/serverless/serverless) to configure the Event Gateway.
 
 ## Installation
 
@@ -49,36 +40,41 @@ Browser:
 
 The EventGateway SDK will then be attached to window e.g. and you can access it via `window.EventGatewaySDK`
 
-## Application Usage
+## Usage
 
-When using in your application logic, you'll usually interact with the `emit` APIs. Use the `emit`
-command to emit a named event and payload to your Event Gateway. The event will be received by any
-function that is subscribed to your event.
+Use the `emit` command to emit a named event and payload to your Event Gateway. The event will be received by any function that is subscribed to your event.
 
 ```javascript
 // Construct your client
 const SDK = require('@serverless/event-gateway-sdk');
 const eventGateway = new SDK({
-  url: 'http://myeventgateway.io',
-  space: 'prod'
+  url: 'https://mytenant-myapp.slsgateway.com',
 })
 
 // Emit your event
-eventGateway.emit({
-  eventID: '1',
-  eventType: 'user.created',
-  cloudEventsVersion: '0.1',
-  source: '/services/users',
-  contentType: 'application/json',
-  data: {
-    userID: 'foo'
-  }
-})
+eventGateway
+  .emit({
+    eventID: '1',
+    eventType: 'user.created',
+    cloudEventsVersion: '0.1',
+    source: '/services/users',
+    contentType: 'application/json',
+    data: {
+      userID: 'foo'
+    }
+  })
+  // If a sync subscription, then do something with the response.
+  .then(res => res.json())
+  .then(json => console.log(json))
 ```
 
-## API Reference
+The method returns a [`fetch`](https://github.com/bitinn/node-fetch) response object. If your event has a `sync` subscription attached, the `fetch` response will have the status code and body from the subscription. If not, the response will return a `202 Accepted` status code with an empty body.
 
-### Constructor
+## Constructor
+
+In the example above, we created an Event Gateway client using the application URL from the [hosted Event Gateway](https://dashboard.serverless.com/) provided by Serverless, Inc. 
+
+You can also use the Event Gateway SDK with your own, self-hosted Event Gateway. Constructor details are listed below.
 
 **Parameters**
 
@@ -101,392 +97,9 @@ const eventGateway = new SDK({
 })
 ```
 
-### Configuration API
+## API Reference
 
-#### `listFunctions`
-
-**Parameters**
-
-Optional, `object` with filters
-
-For more details see Event Gateway [List Functions docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-functions).
-
-**Returns**
-
-Promise object resolving to array of function objects
-
-**Example**
-
-```js
-eventGateway.listFunctions()
-```
-
----
-
-#### `createFunction`
-
-**Parameters**
-
-Object:
-
-- `functionId` - `string` - function ID
-- `type` - `string` - type of function provider
-- `provider` - `object` - provider spec
-
-For more details see Event Gateway [Register Function docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#register-function).
-
-**Returns**
-
-Promise object resolving to Function object
-
-**Example**
-
-```js
-eventGateway.createFunction({
-  functionId: 'sendEmail',
-  type:'awslambda',
-  provider: {
-    arn: 'xxx',
-    region: 'us-west-2',
-  }
-})
-```
-
----
-
-#### `updateFunction`
-
-**Parameters**
-
-Object:
-
-- `functionId` - `string` - function ID
-- `type` - `string` - type of function provider
-- `provider` - `object` - provider spec
-
-For more details see Event Gateway [Update Function docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#update-function).
-
-**Returns**
-
-Promise object resolving to Function object
-
-**Example**
-
-```js
-eventGateway.updateFunction({
-  functionId: 'sendEmail',
-  type:'awslambda',
-  provider: {
-    arn: 'xxx',
-    region: 'us-west-2',
-  }
-})
-```
-
----
-
-#### `deleteFunction`
-
-**Parameters**
-
-Object:
-
-- `functionId` - `string` - function ID
-
-**Example**
-
-```js
-eventGateway.deleteFunction({ functionId: 'sendEmail' })
-```
-
-For more details see Event Gateway [Delete Function docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-function).
-
----
-
-#### `listEventTypes`
-
-**Parameters**
-
-Optional, `object` with filters
-
-For more details see Event Gateway [List Event Types docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-event-types).
-
-**Returns**
-
-Promise object resolving to array of event types objects
-
-**Example**
-
-```js
-eventGateway.listEventTypes()
-```
-
----
-
-#### `createEventType`
-
-**Parameters**
-
-Object:
-
-- `name` - `string` - event type name
-- `authorizerId` - `string` - optional, ID of event type authorizer
-
-For more details see Event Gateway [Create Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#create-event-type).
-
-**Returns**
-
-Promise object resolving to Event Type object
-
-**Example**
-
-```js
-eventGateway.createEventType({
-  name: 'user.created'
-})
-```
-
----
-
-#### `updateEventType`
-
-**Parameters**
-
-Object:
-
-- `name` - `string` - event type name
-- `authorizerId` - `string` - optional, ID of event type authorizer
-
-For more details see Event Gateway [Update Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#update-event-type).
-
-**Returns**
-
-Promise object resolving to Event Type object
-
-**Example**
-
-```js
-eventGateway.updateEventType({
-  name: 'user.created',
-  authorizerId: 'userAuthorizer'
-})
-```
-
----
-
-#### `deleteEventType`
-
-**Parameters**
-
-Object:
-
-- `name` - `string` - event type name
-
-**Example**
-
-```js
-eventGateway.deleteEventType({ name: 'user.created' })
-```
-
-For more details see Event Gateway [Delete Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-event-type).
-
----
-
-#### `listSubscriptions`
-
-**Parameters**
-
-Optional, `object` with filters
-
-For more details see Event Gateway [List Subscriptions docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-subscriptions).
-
-**Returns**
-
-Promise object resolving to array of subscription objects
-
-**Example**
-
-```js
-eventGateway.listSubscriptions()
-```
-
----
-
-#### `subscribe`
-
-**Parameters**
-
-Object:
-
-- `type` - `string` - subscription type, `async` or `sync`
-- `eventType` - `string` - event type
-- `functionId` - `string` - function ID
-- `path` - `string` - optional, subscription path, default: `/`
-- `method` - `string` - optional, HTTP method, default: `POST`
-
-For more details see Event Gateway [Create Subscription docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#create-subscription).
-
-**Returns**
-
-Promise object resolving to Subscription object
-
-**Example**
-
-```js
-eventGateway.subscribe({
-  event: 'user.created',
-  functionId: 'sendEmail'
-})
-```
-
----
-
-#### `unsubscribe`
-
-**Parameters**
-
-Object:
-
-- `subscriptionId` - `string` - subscription ID
-
-**Example**
-
-```js
-eventGateway.unsubscribe({
-  subscriptionId: 'dXNlci5jcmVhdGVkLXNlbmRFbWFpbA'
-})
-```
-
-For more details see Event Gateway [Delete Subscription docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-subscription).
-
----
-
-#### `listCORS`
-
-**Parameters**
-
-Optional, `object` with filters
-
-For more details see Event Gateway [List CORS Configurations docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#list-cors-configurations).
-
-**Returns**
-
-Promise object resolving to array of CORS configuration objects
-
-**Example**
-
-```js
-eventGateway.listCORS()
-```
-
----
-
-#### `createCORS`
-
-**Parameters**
-
-Object:
-
-- `method` - `string` - endpoint method
-- `path` - `string` - endpoint path
-- `allowedOrigins` - `array` of `string` - list of allowed origins. An origin may contain a wildcard (\*) to replace 0 or more characters (i.e.: http://\*.domain.com), default: `*`
-- `allowedMethods` - `array` of `string` - list of allowed methods, default: `HEAD`, `GET`, `POST`
-- `allowedHeaders` - `array` of `string` - list of allowed headers, default: `Origin`, `Accept`, `Content-Type`
-- `allowCredentials` - `bool` - allow credentials, default: false
-
-For more details see Event Gateway [Create CORS Configuration docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#create-cors-configuration).
-
-**Returns**
-
-Promise object resolving to CORS configuration object
-
-**Example**
-
-```js
-eventGateway.createCORS({
-  method: 'GET',
-  path: '/hello',
-  allowedOrigins: ['http://example.com']
-})
-```
-
----
-
-#### `updateCORS`
-
-**Parameters**
-
-Object:
-
-- `corsId` - `string` - CORS configuration ID
-- `method` - `string` - endpoint method
-- `path` - `string` - endpoint path
-- `allowedOrigins` - `array` of `string` - list of allowed origins. An origin may contain a wildcard (\*) to replace 0 or more characters (i.e.: http://\*.domain.com), default: `*`
-- `allowedMethods` - `array` of `string` - list of allowed methods, default: `HEAD`, `GET`, `POST`
-- `allowedHeaders` - `array` of `string` - list of allowed headers, default: `Origin`, `Accept`, `Content-Type`
-- `allowCredentials` - `bool` - allow credentials, default: false
-
-For more details see Event Gateway [Update CORS Configuration docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#update-cors-configuration).
-
-**Returns**
-
-Promise object resolving to CORS configuration object
-
-**Example**
-
-```js
-eventGateway.updateCORS({
-  method: 'GET',
-  path: '/hello',
-  allowedOrigins: ['http://example.com']
-})
-```
-
----
-
-#### `deleteCORS`
-
-**Parameters**
-
-Object:
-
-- `corsID` - `string` - CORS configuration ID
-
-**Example**
-
-```js
-eventGateway.deleteCORS({ corsId: 'GET%2Fhello' })
-```
-
-For more details see Event Gateway [Delete CORS Configuration docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-cors-configuration).
-
-### Events API
-
-#### `emit`
-
-**Parameters**
-
-CloudEvents object
-
-**Returns**
-
-`fetch` response object.
-
-**Example**
-
-```js
-// Emit your event
-eventGateway.emit({
-  eventID: '1',
-  eventType: 'user.created',
-  cloudEventsVersion: '0.1',
-  source: '/services/users',
-  contentType: 'application/json',
-  data: {
-    userID: 'foo'
-  }
-})
-```
+For all available methods in the Event Gateway SDK, please see the [API reference](./docs/api.md).
 
 ## Contribute
 
