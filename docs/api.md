@@ -429,7 +429,10 @@ For more details see Event Gateway [Delete CORS Configuration docs](https://gith
 
 **Parameters**
 
-CloudEvents object
+* `event` - `object` - A [CloudEvents](https://github.com/cloudevents/spec) event payload.
+* `options` - `object` - optional, with following parameters:
+  * `path` - `string` - The path on which the event will be emitted. Default is `/`.
+  * `headers` - `object` - Additional headers to pass with the event request. Can include Authorization headers, etc.
 
 **Returns**
 
