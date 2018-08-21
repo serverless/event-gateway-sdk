@@ -3,7 +3,8 @@ sudo: false
 node_js:
 - 8
 install:
-  - npm install -g codecov
+  - npm install
+  - npm install codecov
 script:
 - npm run lint
 - npm test
