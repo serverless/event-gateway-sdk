@@ -10,7 +10,8 @@
     "test": "snyk test && node tests/utils/eventGatewayDownload.js && jest --maxWorkers=1",
     "test:browser": "npm run build && jest --config=tests-browser/jest.config.json --maxWorkers=1",
     "test:watch": "jest --watch --maxWorkers=1",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "danger": "./node_modules/.bin/danger local"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
@@ -20,6 +21,7 @@
     "@octokit/rest": "^14.0.9",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
+    "danger": "^3.8.6",
     "eslint": "^4.18.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.8.0",
@@ -28,6 +30,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "got": "^8.1.0",
     "jest": "^20.0.4",
+    "pre-commit": "^1.2.2",
     "puppeteer": "^0.9.0",
     "rimraf": "^2.6.1",
     "rollup": "^0.56.0",
@@ -66,5 +69,8 @@
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": true
-  }
+  },
+  "pre-commit": [
+    "danger"
+  ]
 }
