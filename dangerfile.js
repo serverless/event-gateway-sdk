@@ -6,7 +6,7 @@ const doesIncludeTests = danger.git.modified_files.reduce((accum, file) => {
 }, false)
 
 if (!doesIncludeTests) {
-  warn("No tests included in commit.")
+  warn('No tests included in commit.')
 }
 
 const doesIncludeDocs = danger.git.modified_files.reduce((accum, file) => {
@@ -15,5 +15,5 @@ const doesIncludeDocs = danger.git.modified_files.reduce((accum, file) => {
 }, false)
 
 if (!doesIncludeDocs) {
-  warn("No doc changes included in commit.")
+  warn('No doc changes included in commit.')
 }
