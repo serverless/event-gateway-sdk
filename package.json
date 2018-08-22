@@ -7,7 +7,7 @@
   "browser": "dist/event-gateway-sdk.min.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "node tests/utils/eventGatewayDownload.js && jest --maxWorkers=1",
+    "test": "snyk test && node tests/utils/eventGatewayDownload.js && jest --maxWorkers=1",
     "test:browser": "npm run build && jest --config=tests-browser/jest.config.json --maxWorkers=1",
     "test:watch": "jest --watch --maxWorkers=1",
     "build": "rollup -c",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "url-parse": "^1.1.9"
+    "url-parse": "^1.4.3"
   },
   "devDependencies": {
     "@octokit/rest": "^14.0.9",
@@ -43,7 +43,9 @@
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-plugin-visualizer": "^0.3.1",
     "unzipper": "^0.8.11",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "snyk": "^1.92.5",
+    "codecov": "^3.0.4"
   },
   "eslintConfig": {
     "extends": "standard",
