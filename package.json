@@ -7,7 +7,8 @@
   "browser": "dist/event-gateway-sdk.min.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "snyk test && node tests/utils/eventGatewayDownload.js && jest --maxWorkers=1",
+    "test": "node tests/utils/eventGatewayDownload.js && jest --maxWorkers=1",
+    "test:ci": "snyk test && node tests/utils/eventGatewayDownload.js && jest --maxWorkers=1",
     "test:browser": "npm run build && jest --config=tests-browser/jest.config.json --maxWorkers=1",
     "test:watch": "jest --watch --maxWorkers=1",
     "build": "rollup -c",
