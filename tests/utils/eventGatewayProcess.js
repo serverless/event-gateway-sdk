@@ -13,8 +13,8 @@ const processStore = {}
 const binary = path.join(__dirname, `../event-gateway/${version.EventGatewayVersion}/event-gateway`)
 
 module.exports = {
-  spawn: ports =>
-    new Promise(resolve => {
+  spawn: (ports) =>
+    new Promise((resolve) => {
       const processId = uuidv1()
       const args = [
         '--dev',
@@ -36,7 +36,7 @@ module.exports = {
       )
     }),
 
-  shutDown: id => {
+  shutDown: (id) => {
     processStore[id].kill()
     rimraf.sync(`./${id}`)
   }

@@ -10,7 +10,7 @@ beforeAll(() =>
       configPort: 4005,
       apiPort: 4006
     })
-    .then(processInfo => {
+    .then((processInfo) => {
       eventGatewayProcessId = processInfo.id
       eventGateway = new SDK({
         space: 'testspace',
@@ -30,33 +30,35 @@ afterAll(() => {
 })
 
 test('should add a subscription to the gateway', () => {
-  return eventGateway.subscribe(createSubscriptionConfig).then(response => {
+  return eventGateway.subscribe(createSubscriptionConfig).then((response) => {
     expect(response).toEqual(createdSubscriptionConfig)
   })
 })
 
 test('should return list of subscriptions', () => {
-  return eventGateway.listSubscriptions().then(response => {
+  return eventGateway.listSubscriptions().then((response) => {
     expect(response).toEqual([createdSubscriptionConfig])
   })
 })
 
 test('should return filtered list of subscriptions', () => {
-  return eventGateway.listSubscriptions({ 'metadata.foo': 'bar' }).then(response => {
+  return eventGateway.listSubscriptions({ 'metadata.foo': 'bar' }).then((response) => {
     expect(response).toEqual([])
   })
 })
 
 test('should remove the added subscription', () => {
-  return eventGateway.unsubscribe({ subscriptionId: 'YXN5bmMsdGVzdC5ldmVudCx0ZXN0LCUyRixQT1NU' }).then(response => {
-    expect(response).toBeUndefined()
-  })
+  return eventGateway
+    .unsubscribe({ subscriptionId: 'YXN5bmMsdGVzdC5ldmVudCx0ZXN0LCUyRixQT1NU' })
+    .then((response) => {
+      expect(response).toBeUndefined()
+    })
 })
 
 test('should fail to a add a subscription to a non-existing function', () => {
   const brokenConfig = { functionId: 'non-exiting-function', eventType: 'pageVisited' }
 
-  return eventGateway.subscribe(brokenConfig).catch(err => {
+  return eventGateway.subscribe(brokenConfig).catch((err) => {
     expect(err).toEqual(
       new Error(
         `Failed to subscribe the event pageVisited to the function non-exiting-function due the error: ` +
@@ -68,9 +70,11 @@ test('should fail to a add a subscription to a non-existing function', () => {
 })
 
 test('should fail to a remove a non-existing subscription', () => {
-  return eventGateway.unsubscribe({ subscriptionId: 'xxx' }).catch(err => {
+  return eventGateway.unsubscribe({ subscriptionId: 'xxx' }).catch((err) => {
     expect(err).toEqual(
-      new Error('Failed to unsubscribe the subscription xxx due the error: Subscription "xxx" not found.')
+      new Error(
+        'Failed to unsubscribe the subscription xxx due the error: Subscription "xxx" not found.'
+      )
     )
   })
 })

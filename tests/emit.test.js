@@ -11,7 +11,7 @@ beforeAll(() =>
       configPort: 4013,
       apiPort: 4014
     })
-    .then(processInfo => {
+    .then((processInfo) => {
       eventGatewayProcessId = processInfo.id
       eventGateway = new SDK({
         url: `http://localhost:${processInfo.apiPort}`,
@@ -43,7 +43,7 @@ test('should invoke the subscribed function when emitting an event', () => {
           foo: 'bar'
         }
       })
-      .then(response => {
+      .then((response) => {
         expect(response.status).toEqual(202)
       })
       .then(() => {
@@ -66,9 +66,11 @@ test('should throw an error if error response returned', () => {
           foo: 'bar'
         }
       })
-      .catch(err => {
+      .catch((err) => {
         expect(err).toEqual(
-          new Error('Failed to emit the event test.event due the error: Function call failed. Please check logs.')
+          new Error(
+            'Failed to emit the event test.event due the error: Function call failed. Please check logs.'
+          )
         )
       })
       .then(() => {

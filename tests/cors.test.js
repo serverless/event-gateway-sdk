@@ -10,7 +10,7 @@ beforeAll(() =>
       configPort: 4001,
       apiPort: 4002
     })
-    .then(processInfo => {
+    .then((processInfo) => {
       eventGatewayProcessId = processInfo.id
       eventGateway = new SDK({
         space: 'testspace',
@@ -41,39 +41,41 @@ const corsConfig = {
 }
 
 test('should add an event type to the gateway', () => {
-  return eventGateway.createCORS(createCORSConfig).then(response => {
+  return eventGateway.createCORS(createCORSConfig).then((response) => {
     expect(response).toEqual(corsConfig)
   })
 })
 
 test('should return list of CORS configurations', () => {
-  return eventGateway.listCORS().then(response => {
+  return eventGateway.listCORS().then((response) => {
     expect(response).toEqual([corsConfig])
   })
 })
 
 test('should return filtered list of CORS configurations', () => {
-  return eventGateway.listCORS({ 'metadata.foo': 'bar' }).then(response => {
+  return eventGateway.listCORS({ 'metadata.foo': 'bar' }).then((response) => {
     expect(response).toEqual([])
   })
 })
 
 test('should fail to re-add the same CORS configuration', () => {
-  return eventGateway.createCORS(createCORSConfig).catch(err => {
+  return eventGateway.createCORS(createCORSConfig).catch((err) => {
     expect(err).toEqual(
-      new Error('Failed to create CORS configuration due the error: CORS configuration "GET%2Ftest" already exists.')
+      new Error(
+        'Failed to create CORS configuration due the error: CORS configuration "GET%2Ftest" already exists.'
+      )
     )
   })
 })
 
 test('should remove the added CORS configuration', () => {
-  return eventGateway.deleteCORS({ corsId: 'GET%2Ftest' }).then(response => {
+  return eventGateway.deleteCORS({ corsId: 'GET%2Ftest' }).then((response) => {
     expect(response).toBeUndefined()
   })
 })
 
 test('should fail to remove a non-existing function', () => {
-  return eventGateway.deleteCORS({ corsId: 'GET%2Ftest' }).catch(err => {
+  return eventGateway.deleteCORS({ corsId: 'GET%2Ftest' }).catch((err) => {
     expect(err).toEqual(
       new Error(
         'Failed to delete GET%2Ftest CORS configuration due the error: CORS configuration "GET%2Ftest" not found.'

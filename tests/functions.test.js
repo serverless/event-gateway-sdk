@@ -10,7 +10,7 @@ beforeAll(() =>
       configPort: 4001,
       apiPort: 4002
     })
-    .then(processInfo => {
+    .then((processInfo) => {
       eventGatewayProcessId = processInfo.id
       eventGateway = new SDK({
         space: 'testspace',
@@ -43,27 +43,29 @@ const functionConfig = {
 }
 
 test('should add a function to the gateway', () => {
-  return eventGateway.createFunction(createFunctionConfig).then(response => {
+  return eventGateway.createFunction(createFunctionConfig).then((response) => {
     expect(response).toEqual(functionConfig)
   })
 })
 
 test('should return list of functions', () => {
-  return eventGateway.listFunctions().then(response => {
+  return eventGateway.listFunctions().then((response) => {
     expect(response).toEqual([functionConfig])
   })
 })
 
 test('should return filtered list of functions', () => {
-  return eventGateway.listFunctions({ 'metadata.foo': 'bar' }).then(response => {
+  return eventGateway.listFunctions({ 'metadata.foo': 'bar' }).then((response) => {
     expect(response).toEqual([])
   })
 })
 
 test('should fail to re-add the same function', () => {
-  return eventGateway.createFunction(functionConfig).catch(err => {
+  return eventGateway.createFunction(functionConfig).catch((err) => {
     expect(err).toEqual(
-      new Error('Failed to create the function test due the error: Function "test" already registered.')
+      new Error(
+        'Failed to create the function test due the error: Function "test" already registered.'
+      )
     )
   })
 })
@@ -88,21 +90,23 @@ test('should update an existing function', () => {
     }
   }
 
-  return eventGateway.updateFunction(updateFunctionConfig).then(response => {
+  return eventGateway.updateFunction(updateFunctionConfig).then((response) => {
     expect(response).toEqual(updatedFunctionConfig)
   })
 })
 
 test('should remove the added function', () => {
-  return eventGateway.deleteFunction({ functionId: 'test' }).then(response => {
+  return eventGateway.deleteFunction({ functionId: 'test' }).then((response) => {
     expect(response).toBeUndefined()
   })
 })
 
 test('should fail to remove a non-existing function', () => {
-  return eventGateway.deleteFunction({ functionId: 'missing-func' }).catch(err => {
+  return eventGateway.deleteFunction({ functionId: 'missing-func' }).catch((err) => {
     expect(err).toEqual(
-      new Error('Failed to delete the function missing-func due the error: Function "missing-func" not found.')
+      new Error(
+        'Failed to delete the function missing-func due the error: Function "missing-func" not found.'
+      )
     )
   })
 })

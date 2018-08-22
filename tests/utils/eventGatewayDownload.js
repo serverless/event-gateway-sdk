@@ -12,7 +12,7 @@ const release = {
   tag: version.EventGatewayVersion
 }
 
-const download = target => {
+const download = (target) => {
   if (process.env.GH_API_KEY) {
     octokit.authenticate({
       type: 'token',
@@ -22,13 +22,15 @@ const download = target => {
 
   return octokit.repos
     .getReleaseByTag(release)
-    .then(response => {
+    .then((response) => {
       const assets = response.data.assets
       if (!assets || !Array.isArray(assets)) {
         throw new Error('No assets in the latest release')
       }
 
-      const toDownload = assets.find(asset => asset && asset.name && asset.name.includes(`${process.platform}_amd64`))
+      const toDownload = assets.find(
+        (asset) => asset && asset.name && asset.name.includes(`${process.platform}_amd64`)
+      )
       if (!toDownload) {
         throw new Error('No asset found in the latest release that matches the platform')
       }
@@ -41,7 +43,7 @@ const download = target => {
         extractionStream.on('error', reject)
       })
     })
-    .catch(error => {
+    .catch((error) => {
       throw new Error((error.response && error.response.body) || (error && error.message))
     })
 }
