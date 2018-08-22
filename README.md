@@ -3,6 +3,7 @@
 Javascript library for interacting with the [Event Gateway](https://github.com/serverless/event-gateway).
 
 [![Build Status](https://travis-ci.org/serverless/event-gateway-sdk.svg?branch=master)](https://travis-ci.org/serverless/event-gateway-sdk)
+[![Known Vulnerabilities](https://snyk.io/test/github/serverless/event-gateway-sdk/badge.svg)](https://snyk.io/test/github/serverless/event-gateway-sdk)
 
 ## Contents
 
