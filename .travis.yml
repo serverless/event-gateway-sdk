@@ -6,7 +6,7 @@ install:
 - npm install
 script:
 - npm run lint
-- npm test
+- npm run test:ci
 - npm run test:browser
 - codecov
 before_deploy:
