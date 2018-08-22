@@ -41,7 +41,8 @@
     "rollup-plugin-visualizer": "^0.3.1",
     "unzipper": "^0.8.11",
     "uuid": "^3.1.0",
-    "snyk": "^1.92.5"
+    "snyk": "^1.92.5",
+    "codecov": "^3.0.4"
   },
   "eslintConfig": {
     "extends": "standard",
