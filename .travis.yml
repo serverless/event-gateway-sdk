@@ -2,10 +2,15 @@ language: node_js
 sudo: false
 node_js:
 - 8
+install:
+- npm install
 script:
 - npm run lint
-- npm test
+- npm run test:ci
 - npm run test:browser
+- codecov
+before_deploy:
+- snyk monitor --org=serverless
 deploy:
   provider: npm
   email: services@serverless.com

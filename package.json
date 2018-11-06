@@ -8,18 +8,21 @@
   "scripts": {
     "lint": "eslint .",
     "test": "node tests/utils/eventGatewayDownload.js && jest --maxWorkers=1",
+    "test:ci": "snyk test && npm test",
     "test:browser": "npm run build && jest --config=tests-browser/jest.config.json --maxWorkers=1",
     "test:watch": "jest --watch --maxWorkers=1",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "danger": "./node_modules/.bin/danger local"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "url-parse": "^1.1.9"
+    "url-parse": "^1.4.3"
   },
   "devDependencies": {
     "@octokit/rest": "^14.0.9",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
+    "danger": "^3.8.6",
     "eslint": "^4.18.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.8.0",
@@ -28,6 +31,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "got": "^8.1.0",
     "jest": "^20.0.4",
+    "pre-commit": "^1.2.2",
     "puppeteer": "^0.9.0",
     "rimraf": "^2.6.1",
     "rollup": "^0.56.0",
@@ -40,7 +44,9 @@
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-plugin-visualizer": "^0.3.1",
     "unzipper": "^0.8.11",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "snyk": "^1.92.5",
+    "codecov": "^3.0.4"
   },
   "eslintConfig": {
     "extends": "standard",
@@ -60,5 +66,12 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
+  },
+  "pre-commit": [
+    "danger"
+  ]
 }
