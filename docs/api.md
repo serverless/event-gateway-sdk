@@ -4,10 +4,10 @@
 - [Constructor](#constructor)
 - [Configuration API](#configuration-api)
   - Functions:
-      - [`listFunctions`](#listfunctions)
-      - [`createFunction`](#createfunction)
-      - [`updateFunction`](#updatefunction)
-      - [`deleteFunction`](#deletefunction)
+    - [`listFunctions`](#listfunctions)
+    - [`createFunction`](#createfunction)
+    - [`updateFunction`](#updatefunction)
+    - [`deleteFunction`](#deletefunction)
   - Event Types:
 	  - [`listEventTypes`](#listeventtypes)
 	  - [`createEventType`](#createeventtype)
@@ -22,6 +22,11 @@
 	  - [`createCORS`](#createcors)
 	  - [`updateCORS`](#updatecors)
 	  - [`deleteCORS`](#deletecors)
+  - Connections:
+	  - [`listConnections`](#listconnections)
+	  - [`createConnection`](#createconnection)
+	  - [`updateConnection`](#updateconnection)
+	  - [`deleteConnection`](#deleteconnection)
 - [Events API](#events-api)
   - [`emit`](#emit)
 
@@ -422,6 +427,95 @@ eventGateway.deleteCORS({ corsId: 'GET%2Fhello' })
 ```
 
 For more details see Event Gateway [Delete CORS Configuration docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-cors-configuration).
+
+---
+
+#### `listConnections`
+
+**Parameters**
+
+Optional, `object` with filters
+
+**Returns**
+
+Promise object resolving to array of connection objects
+
+**Example**
+
+```js
+eventGateway.listConnections()
+```
+
+---
+
+#### `createConnection`
+
+**Parameters**
+
+Object:
+
+- `space` - `string` - Space name
+- `target` - `string` - Event Gateway URL
+- `authorizerId` - `string` - optional, ID of event type authorizer
+
+For more details see Event Gateway [Create Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#create-event-type).
+
+**Returns**
+
+Promise object resolving to Event Type object
+
+**Example**
+
+```js
+eventGateway.createEventType({
+  name: 'user.created'
+})
+```
+
+---
+
+#### `updateEventType`
+
+**Parameters**
+
+Object:
+
+- `name` - `string` - event type name
+- `authorizerId` - `string` - optional, ID of event type authorizer
+
+For more details see Event Gateway [Update Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#update-event-type).
+
+**Returns**
+
+Promise object resolving to Event Type object
+
+**Example**
+
+```js
+eventGateway.updateEventType({
+  name: 'user.created',
+  authorizerId: 'userAuthorizer'
+})
+```
+
+---
+
+#### `deleteEventType`
+
+**Parameters**
+
+Object:
+
+- `name` - `string` - event type name
+
+**Example**
+
+```js
+eventGateway.deleteEventType({ name: 'user.created' })
+```
+
+For more details see Event Gateway [Delete Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-event-type).
+
 
 ### Events API
 
