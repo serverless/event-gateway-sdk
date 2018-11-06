@@ -53,7 +53,7 @@ test('should invoke the subscribed function when emitting an event', () => {
 })
 
 test('should throw an error if error response returned', () => {
-  serverReturningError.listen(serverPort)
+  serverReturningError.listen(serverReturningErrorPort)
   return eventGateway.subscribe(syncSubscriptionConfig).then(() => {
     return eventGateway
       .emit({
@@ -77,11 +77,40 @@ test('should throw an error if error response returned', () => {
   })
 })
 
+test('should invoke the subscribed function on path when emitting an event', () => {
+  server.listen(serverPort)
+  return eventGateway.subscribe(syncSubscriptionWithPathConfig).then(() => {
+    return eventGateway
+      .emit(
+        {
+          cloudEventsVersion: '0.1',
+          eventType: 'test.event',
+          eventID: '1',
+          source: '/services/tests',
+          contentType: 'application/json',
+          data: {
+            foo: 'bar'
+          }
+        },
+        {
+          path: 'test'
+        }
+      )
+      .then(response => {
+        expect(response.status).toEqual(200)
+      })
+      .then(() => {
+        server.close()
+      })
+  })
+})
+
 const serverPort = 3336
 const server = http.createServer((request, response) => {
   response.writeHead(200, { 'Content-Type': 'application/json' })
-  response.end(JSON.stringify({ message: 'success' }))
+  response.end(JSON.stringify({ statusCode: 200 }))
 })
+const serverReturningErrorPort = 3337
 const serverReturningError = http.createServer((request, response) => {
   response.writeHead(400, { 'Content-Type': 'application/json' })
 })
@@ -110,4 +139,11 @@ const syncSubscriptionConfig = {
   type: 'sync',
   functionId: 'test-emit',
   eventType: 'test.event'
+}
+
+const syncSubscriptionWithPathConfig = {
+  type: 'sync',
+  functionId: 'test-emit',
+  eventType: 'test.event',
+  path: '/test'
 }
