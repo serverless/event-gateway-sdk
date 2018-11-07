@@ -22,7 +22,7 @@
 	  - [`createCORS`](#createcors)
 	  - [`updateCORS`](#updatecors)
 	  - [`deleteCORS`](#deletecors)
-  - Connections:
+  - [Experimental] Connections:
 	  - [`listConnections`](#listconnections)
 	  - [`createConnection`](#createconnection)
 	  - [`updateConnection`](#updateconnection)
@@ -54,6 +54,7 @@ Object:
 
 - `url` - `string` - required, Events API URL
 - `configurationUrl` - `string` -  optional, Configuration API URL. By default, it's the same as `url` but with `4001` port
+- `connectorUrl` - `string` -  optional, Connector Configuration API URL. Default: `http://localhost:4002`
 - `space` - `string` - optional, space name, default: `default`
 - `accessKey` - `string` - optional, access key for hosted Event Gateway. Access key is required for using Configuration API methods on hosted Event Gateway
 - `fetchClient` - `object` - optional, `fetch` client
@@ -432,13 +433,7 @@ For more details see Event Gateway [Delete CORS Configuration docs](https://gith
 
 #### `listConnections`
 
-**Parameters**
-
-Optional, `object` with filters
-
-**Returns**
-
-Promise object resolving to array of connection objects
+For more details see Event Gateway Connector [List Connections docs](https://github.com/serverless/event-gateway-connector#list-connections)
 
 **Example**
 
@@ -450,72 +445,54 @@ eventGateway.listConnections()
 
 #### `createConnection`
 
-**Parameters**
-
-Object:
-
-- `space` - `string` - Space name
-- `target` - `string` - Event Gateway URL
-- `authorizerId` - `string` - optional, ID of event type authorizer
-
-For more details see Event Gateway [Create Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#create-event-type).
-
-**Returns**
-
-Promise object resolving to Event Type object
+For more details see Event Gateway Connector [Create Connection docs](https://github.com/serverless/event-gateway-connector#create-connection)
 
 **Example**
 
 ```js
-eventGateway.createEventType({
-  name: 'user.created'
+eventGateway.createConnection({
+	target: "http://localhost:4001",
+	eventType: "user.created",
+	type: "awskinesis",
+	source: {
+		streamName: "test",
+		region: "us-east-1"
+	}
 })
 ```
 
 ---
 
-#### `updateEventType`
+#### `updateConnection`
 
-**Parameters**
-
-Object:
-
-- `name` - `string` - event type name
-- `authorizerId` - `string` - optional, ID of event type authorizer
-
-For more details see Event Gateway [Update Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#update-event-type).
-
-**Returns**
-
-Promise object resolving to Event Type object
+For more details see Event Gateway Connector [Update Connection docs](https://github.com/serverless/event-gateway-connector#update-connection)
 
 **Example**
 
 ```js
-eventGateway.updateEventType({
-  name: 'user.created',
-  authorizerId: 'userAuthorizer'
+eventGateway.updateConnection({
+  connectionId: "xxx",
+	target: "http://localhost:4001",
+	eventType: "user.created",
+	type: "awskinesis",
+	source: {
+		streamName: "test",
+		region: "us-east-1"
+	}
 })
 ```
 
 ---
 
-#### `deleteEventType`
+#### `deleteConnection`
 
-**Parameters**
-
-Object:
-
-- `name` - `string` - event type name
+For more details see Event Gateway Connector [Delete Connection docs](https://github.com/serverless/event-gateway-connector#delete-connection)
 
 **Example**
 
 ```js
-eventGateway.deleteEventType({ name: 'user.created' })
+eventGateway.deleteConnection({ connectionId: 'xxx' })
 ```
-
-For more details see Event Gateway [Delete Event Type docs](https://github.com/serverless/event-gateway/blob/master/docs/api.md#delete-event-type).
-
 
 ### Events API
 
