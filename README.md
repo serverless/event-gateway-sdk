@@ -43,7 +43,7 @@ The EventGateway SDK will then be attached to window e.g. and you can access it 
 
 ## Usage
 
-Use the `emit` command to emit a named event and payload to your Event Gateway. The event will be received by any function that is subscribed to your event.
+Use the `emit` command to emit a [CloudEvent](https://github.com/cloudevents/spec) payload to your Event Gateway. The event will be received by any function that is subscribed to your event.
 
 ```javascript
 // Construct your client
@@ -63,13 +63,20 @@ eventGateway
     data: {
       userID: 'foo'
     }
+  }, {
+    path: '/users',
+    headers: {
+      "Authorization": "Bearer 124567890"
+    }
   })
   // If a sync subscription, then do something with the response.
   .then(res => res.json())
   .then(json => console.log(json))
 ```
 
-The method returns a [`fetch`](https://github.com/bitinn/node-fetch) response object. If your event has a `sync` subscription attached, the `fetch` response will have the status code and body from the subscription. If not, the response will return a `202 Accepted` status code with an empty body.
+The `emit()` function takes two arguments: an `event` which is a valid CloudEvent, plus an optional `options` object to include a path and/or headers to pass with your event.
+
+The function returns a [`fetch`](https://github.com/bitinn/node-fetch) response object. If your event has a `sync` subscription attached, the `fetch` response will have the status code and body from the subscription. If not, the response will return a `202 Accepted` status code with an empty body.
 
 ## Constructor
 
