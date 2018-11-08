@@ -22,6 +22,7 @@
     "@octokit/rest": "^14.0.9",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
+    "codecov": "^3.0.4",
     "danger": "^3.8.6",
     "eslint": "^4.18.0",
     "eslint-config-standard": "^11.0.0",
@@ -43,10 +44,10 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-plugin-visualizer": "^0.3.1",
-    "unzipper": "^0.8.11",
-    "uuid": "^3.1.0",
+    "sinon": "^7.1.1",
     "snyk": "^1.92.5",
-    "codecov": "^3.0.4"
+    "unzipper": "^0.8.11",
+    "uuid": "^3.1.0"
   },
   "eslintConfig": {
     "extends": "standard",
