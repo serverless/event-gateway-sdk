@@ -9,6 +9,7 @@ describe('SDK', () => {
 
       expect(sdk.config.eventsUrl).toEqual('http://localhost:4000')
       expect(sdk.config.configurationUrl).toEqual('http://localhost:4001')
+      expect(sdk.config.connectorUrl).toEqual('http://localhost:4002')
       expect(sdk.config.space).toEqual('default')
     })
 
@@ -31,6 +32,7 @@ describe('SDK', () => {
 
       expect(sdk.config.eventsUrl).toEqual('https://test-app.slsgateway.com')
       expect(sdk.config.configurationUrl).toEqual('https://config.slsgateway.com')
+      expect(sdk.config.connectorUrl).toEqual('https://config.slsgateway.com')
       expect(sdk.config.space).toEqual('test-app')
       expect(sdk.config.accessKey).toEqual('xxx')
     })
