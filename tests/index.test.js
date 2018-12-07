@@ -47,6 +47,7 @@ describe('SDK', () => {
 
       expect(sdk.config.space).not.toEqual('hello')
       expect(sdk.config.configurationUrl).not.toEqual('http://localhost:4001')
+      expect(sdk.config.connectorUrl).not.toEqual('http://localhost:4002')
     })
   })
 })
