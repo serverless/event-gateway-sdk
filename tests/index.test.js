@@ -42,6 +42,7 @@ describe('SDK', () => {
         url: 'test-app.slsgateway.com',
         accessKey: 'xxx',
         configurationUrl: 'http://localhost:4001',
+        connectorUrl: 'http://localhost:4002',
         space: 'hello'
       })
 
